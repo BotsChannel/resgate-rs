@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Person" ALTER COLUMN "sex" DROP DEFAULT;
