@@ -21,11 +21,7 @@ export async function GET(
     }
 ) {
     const comments = await getComments({ personId: context.params.id });
-
-    return {
-        status: 200,
-        body: comments,
-    };
+    return Response.json(comments, { status: 200 });
 }
 
 export async function POST(
@@ -39,8 +35,5 @@ export async function POST(
     const { author, message } = req.body as unknown as { author: string, message: string };
     const comment = await postComment(message, author, context.params.id);
 
-    return {
-        status: 200,
-        body: comment,
-    };
+    return Response.json(comment, { status: 201 });
 }
