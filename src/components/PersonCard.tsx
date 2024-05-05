@@ -5,6 +5,8 @@ interface Person {
   id: string;
   name: string;
   age: number;
+  cidade: string;
+  endereco: string;
   status: string;
   photoUrl: string;
 }
@@ -16,11 +18,25 @@ interface PersonCardProps {
 const PersonCard: React.FC<PersonCardProps> = ({ person }) => {
   return (
     <div className="bg-white rounded-lg shadow-lg p-4 w-64">
-      <Image src={person.photoUrl} alt={person.name} className="w-full h-auto rounded-md" />
+      <p 
+        className={`text-md font-bold text-center ${person.status === 'Desaparecido' ? 'text-red-500' : 'text-green-500'}`}>
+          {person.status === 'Desaparecido' ? '🚨' : '✅'}
+          {person.status}
+      </p>
+      <Image 
+        src={person.photoUrl} 
+        alt={person.name} 
+        width={256}
+        height={256}
+        className="w-full h-auto rounded-md mt-4"
+      />
       <div className="mt-4">
-        <h3 className="text-lg font-semibold">{person.name}</h3>
-        <p className="text-sm text-gray-600">Idade: {person.age}</p>
-        <p className="text-sm text-gray-600">Status: {person.status}</p>
+        <h3 className="text-lg font-semibold text-black">
+          {person.name.length > 15 ? `${person.name.slice(0, 15)}...` : person.name}, <span className="text-md font-normal">{person.age}</span>
+        </h3>
+        <p className="font-normal text-black">
+          {person.cidade}
+        </p>
       </div>
     </div>
   );
