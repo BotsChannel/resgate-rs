@@ -9,7 +9,7 @@ model Person {
   endereco  String
   abrigo    String
   entrada   DateTime
-  card      Card[]
+  comentarios Comment[]
 }
 */
 

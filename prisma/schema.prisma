@@ -24,21 +24,25 @@ model Person {
   endereco  String
   abrigo    String
   entrada   DateTime
-  card      Card[]
+  comentarios Comment[]
 }
 
 model Comment {
   id        String   @id @default(cuid())
   message   String
+  author    String
   timestamp DateTime @default(now())
-  card      Card     @relation(fields: [cardId], references: [id])
-  cardId    String
+  person    Person   @relation(fields: [personId], references: [id])
+  personId  String
 }
 
-model Card {
-  id        String    @id @default(cuid())
-  type      String
-  person    Person    @relation(fields: [personId], references: [id])
-  personId  String
-  comments  Comment[]
+model chat_session {
+  id        String   @id @default(cuid())
+}
+
+model chat_message {
+  id        String   @id @default(cuid())
+  message   String
+  author    String
+  timestamp DateTime @default(now())
 }

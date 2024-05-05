@@ -2,32 +2,36 @@
 model Comment {
   id        String   @id @default(cuid())
   message   String
+  author    String
   timestamp DateTime @default(now())
-  card      Card     @relation(fields: [cardId], references: [id])
-  cardId    String
+  person    Person   @relation(fields: [personId], references: [id])
+  personId  String
 }
 */
 
 import { prisma } from '@/lib/prisma/config'
 
-export const getComments = async ({ cardId }: { cardId: string }) => {
+export const getComments = async ({ personId }: { personId: string }) => {
   return await prisma.comment.findMany({
     where: {
-      cardId,
+      personId,
     },
   })
 }
 
 export const postComment = async ({
   message,
-  cardId,
+  author,
+  personId,
 }: {
   message: string
-  cardId: string
+  author: string
+  personId: string
 }) => {
   const data = {
     message,
-    cardId,
+    author,
+    personId,
   }
   return await prisma.comment.create({ data })
 }
