@@ -8,6 +8,15 @@
   --background-end-color: #fff;
 }
 
+body::webkit-scrollbar {
+  width: 6px;
+}
+
+body::webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 9999px;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-color: #000;

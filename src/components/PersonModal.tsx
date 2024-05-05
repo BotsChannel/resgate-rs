@@ -1,10 +1,9 @@
+"use client";
 import { PersonType } from "@/types/person";
 import { Modal } from "antd";
-import ImageCard from "./ImageCard";
-import formatDate from "@/utils/formatDate";
 import ChatComponent from "./Chat/Chat";
-import PersonCard from "./PersonCard";
 import { ChatProvider } from "./Chat/ChatProvider";
+import PersonCard from "./PersonCard";
 
 interface PersonModalProps {
   person: PersonType;
@@ -35,8 +34,7 @@ const PersonModal = ({ person, setSelectedPerson }: PersonModalProps) => {
             }`}
           >
             {person.status === "Resgatado" ? "🟢" : "⚠️"} {person.status}
-            {/* ID:
-            {person.id} */}
+            <p className="absolute top-1 left-1 text-xs text-gray-500">ID PESSOA: {person.id}</p>
           </p>
         </div>
         <div className="flex gap-4 flex-col md:flex-row text-lg">
@@ -45,7 +43,7 @@ const PersonModal = ({ person, setSelectedPerson }: PersonModalProps) => {
             setSelectedPerson={setSelectedPerson}
           />
 
-          <div className="w-full h-[500px] flex">
+          <div className="w-full h-[600px] flex">
             <ChatProvider>
               <ChatComponent
                 botName={`Informações sobre ${person.name}`}

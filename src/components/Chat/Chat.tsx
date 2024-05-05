@@ -19,7 +19,7 @@ const ChatComponent: React.FC<ChatProps> = ({
   containerId,
 }) => {
   const ChatBotName = botName ?? "RESGATE RS";
-  const { sendMessage, messages, chatError, notificationNumber } = useContext(ChatContext);
+  const { sendMessage, messages, chatError } = useContext(ChatContext);
   const [waitingForResponse, setWaitingForResponse] = React.useState<boolean>(false);
 
   const [isTyping, setIsTyping] = React.useState<boolean>(false);
@@ -75,10 +75,7 @@ const ChatComponent: React.FC<ChatProps> = ({
           height: height ?? "30rem",
         }}
       >
-        <ChatHeader
-          notificationNumber={notificationNumber}
-          ChatBotName={ChatBotName}
-        />
+        <ChatHeader ChatBotName={ChatBotName} />
 
         <div
           className={styles.chatMessages}

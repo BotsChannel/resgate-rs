@@ -17,12 +17,19 @@ const Resgate: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
   const [people, setPeople] = useState<any[]>([]);
   const [selectedPerson, setSelectedPerson] = useState<any | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       const fetchedPeople = await fetch("/api/people").then((res) =>
         res.json().finally(() => setLoading(false))
       );
+
+      fetch("/api/people").then((res) => console.log(res));
+      if (fetchedPeople.ok !== true) {
+        setError(fetchedPeople.message ?? "Erro ao buscar pessoas.");
+        return;
+      }
 
       const formattedPeople = fetchedPeople.map(
         (person: {
@@ -48,8 +55,6 @@ const Resgate: React.FC = () => {
         })
       );
 
-      console.log(formattedPeople);
-      
       setPeople(formattedPeople);
     };
 
@@ -79,7 +84,7 @@ const Resgate: React.FC = () => {
         setSelectedPerson={setSelectedPerson}
       />
 
-      <div className="container mx-auto px-4 py-8 space-y-8 max-w-5xl mih-h-screen">
+      <div className="container mx-auto px-4 py-8 space-y-8 max-w-5xl min-h-screen">
         <h1 className="text-4xl lg:text-7xl font-bold text-center text-gray-800 mb-4 lg:mb-12">
           RS Resgate
         </h1>
@@ -94,7 +99,11 @@ const Resgate: React.FC = () => {
             placeholder="Buscar por nome..."
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
-            className="border border-gray-300 rounded px-3 py-2 mb-2"
+            className="border border-gray-300 min-h-[40px]"
+            style={{
+              boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)",
+              marginBottom: "0.75rem",
+            }}
           />
           <Collapse
             size="large"
@@ -144,12 +153,8 @@ const Resgate: React.FC = () => {
             {filteredPeople.length} pessoas encontradas
           </h2>
         </div>
-        {loading && (
-          <div className="flex justify-center w-full">
-            <Spin size="large" />
-          </div>
-        )}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center bg-gray-200 p-4">
           {filteredPeople.map((person) => (
             <PersonCard
               key={person.id}
@@ -158,12 +163,22 @@ const Resgate: React.FC = () => {
               showButton
             />
           ))}
+          {filteredPeople.length === 0 && !loading && !error && (
+            <p className="text-lg text-gray-800 text-center col-span-3">
+              Nenhuma pessoa encontrada com os filtros selecionados.
+            </p>
+          )}
+          {loading && (
+            <div className="flex justify-center w-full col-span-3">
+              <Spin size="large" />
+            </div>
+          )}
+          {error && (
+            <p className="text-lg text-red-500 text-center col-span-3 p-2">
+              Ocorreu um erro ao buscar as pessoas. Por favor, tente novamente.
+            </p>
+          )}
         </div>
-        {filteredPeople.length === 0 && loading === false && (
-          <p className="text-lg text-gray-800 text-center">
-            Nenhuma pessoa encontrada com os filtros selecionados.
-          </p>
-        )}
       </div>
     </>
   );

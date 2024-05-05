@@ -1,10 +1,11 @@
+"use client";
 import { Form, Modal, Select, Upload, Button, Input } from "antd";
 import { useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
 import { addImage } from "@/lib/prisma/queries/images";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import cidades from "../data/cidades";
-import unidecode from 'unidecode';
+import unidecode from "unidecode";
 
 const CreatePersonModal = ({
   isOpen,
@@ -15,7 +16,7 @@ const CreatePersonModal = ({
 }) => {
   const [selectedStatus, setSelectedStatus] = useState<string>("Desaparecido");
   const [form] = Form.useForm();
-
+  const { Item } = Form;
   async function submitPerson() {
     const values = form.getFieldsValue();
 
@@ -24,8 +25,8 @@ const CreatePersonModal = ({
       age: parseInt(values.age),
       cidade: values.cidade,
       endereco: values.endereco,
-      abrigo: 'null',
-      entrada: 'null',
+      abrigo: "null",
+      entrada: "null",
       status: values.status,
       photoUrl: await addImage(values.photoUrl.fileList[0].originFileObj),
     };
@@ -69,7 +70,7 @@ const CreatePersonModal = ({
         initialValues={{ remember: true }}
         onFinish={submitPerson}
       >
-        <Form.Item
+        <Item
           label="Nome"
           required
           name="name"
@@ -79,7 +80,7 @@ const CreatePersonModal = ({
             type="text"
             placeholder="Nome da pessoa"
           />
-        </Form.Item>
+        </Item>
         <Form.Item
           label="Idade"
           name="age"
@@ -91,25 +92,33 @@ const CreatePersonModal = ({
           />
         </Form.Item>
 
-        <Form.Item label="Cidade" name="cidade">
+        <Form.Item
+          label="Cidade"
+          name="cidade"
+        >
           <Select
             showSearch
             placeholder="Selecione a cidade"
             filterOption={(input, option) => {
               const normalizedInput = unidecode(input).toLowerCase();
-              const normalizedOption = unidecode((option?.children as unknown as string) ?? '').toLowerCase();
+              const normalizedOption = unidecode(
+                (option?.children as unknown as string) ?? ""
+              ).toLowerCase();
               return normalizedOption.indexOf(normalizedInput) >= 0;
             }}
           >
             {cidades.map((cidade) => (
-              <Select.Option key={cidade} value={cidade}>
+              <Select.Option
+                key={cidade}
+                value={cidade}
+              >
                 {cidade}
               </Select.Option>
             ))}
           </Select>
         </Form.Item>
 
-        <Form.Item
+        <Item
           label="Endereço"
           name="endereco"
         >
@@ -117,7 +126,7 @@ const CreatePersonModal = ({
             type="text"
             placeholder="Endereço da pessoa"
           />
-        </Form.Item>
+        </Item>
         <Form.Item
           label="Status"
           name="status"
