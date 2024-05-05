@@ -34,10 +34,9 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
 
   const sendMessage = React.useCallback((message: string, isUser?: boolean) => {
     const newMessage: ChatMessage = {
-      id: `message-${new Date().getHours()}-${new Date().getMinutes()}-${new Date().getSeconds()}-${new Date().getMilliseconds()}`,
       text: message,
       isUser: isUser ?? false,
-      timestamp: new Date().toLocaleTimeString().slice(0, 5),
+      timestamp: new Date().getTime(),
     };
     setMessages((messages) => [...messages, newMessage]);
     setLastMessage(newMessage.text);

@@ -7,6 +7,10 @@ import { ChatContext } from "./ChatProvider";
 import { ErrorIcon } from "./Icons";
 import WaitingMessageBubble from "./WaitingMessageBubble";
 import { ChatMessage, ChatProps } from "./widget-types";
+import moment from 'moment';
+import 'moment/locale/pt-br'
+
+moment.locale('pt-br')
 
 const ChatComponent: React.FC<ChatProps> = ({
   botName,
@@ -104,7 +108,7 @@ const ChatComponent: React.FC<ChatProps> = ({
             </>
           ) : (
             <>
-              {messages.map((message: ChatMessage) => (
+              {messages.map((message: any) => (
                 <div
                   key={message.id}
                   id={message.id}
@@ -112,7 +116,9 @@ const ChatComponent: React.FC<ChatProps> = ({
                 >
                   <div className={styles.messageBubble}>
                     <p className="mt-1">{message.text}</p>
-                    <span className={styles.timestamp}>{message.timestamp}</span>
+                    <span className={styles.timestamp}>
+                      {moment(message.timestamp).fromNow()}
+                    </span>
                   </div>
                 </div>
               ))}

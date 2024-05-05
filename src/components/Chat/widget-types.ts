@@ -1,8 +1,7 @@
 export interface ChatMessage {
-  id: string;
   text: string;
   isUser: boolean;
-  timestamp: string;
+  timestamp: number;
 }
 
 export interface ChatProps {
