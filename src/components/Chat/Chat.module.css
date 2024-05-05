@@ -129,39 +129,13 @@
   border-radius: 1.5rem;
   padding: 0.5rem 1rem;
   max-width: 85%;
+  background-color: #0059ff;
+  border-top-left-radius: 0.5rem;
 }
 
 .waitingMessageBubble {
   border-radius: 1.5rem;
   padding: 1rem 1.5rem;
-}
-
-.botMessage {
-  align-items: flex-start;
-
-  .waitingMessageBubble {
-    background-color: #0059ff;
-    border-top-left-radius: 0.5rem;
-  }
-
-  .messageBubble {
-    background-color: #0059ff;
-    border-top-left-radius: 0.5rem;
-  }
-}
-
-.userMessage {
-  align-items: flex-end;
-
-  .waitingMessageBubble {
-    background-color: #32a836;
-    border-top-right-radius: 0.5rem;
-  }
-
-  .messageBubble {
-    background-color: #32a836;
-    border-top-right-radius: 0.5rem;
-  }
 }
 
 .botMessage + .botMessage {

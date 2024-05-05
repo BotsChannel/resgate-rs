@@ -12,15 +12,14 @@ type MenuItem = Required<MenuProps>["items"][number];
 
 const items: MenuItem[] = [
   {
-    label: "Informações",
-    key: "mail",
-    icon: <InfoCircleOutlined />,
+    label: "Chat",
+    key: "chat",
+    icon: <MessageOutlined />,
   },
   {
-    label: "Chat",
-    key: "app",
-    icon: <MessageOutlined />,
-    disabled: true,
+    label: "Informações",
+    key: "info",
+    icon: <InfoCircleOutlined />,
   },
 ];
 
@@ -31,10 +30,9 @@ interface PersonModalProps {
 }
 
 const PersonModal = ({ person, setSelectedPerson, setIsModalOpen }: PersonModalProps) => {
-  const [current, setCurrent] = useState("mail");
+  const [current, setCurrent] = useState("chat");
 
   const onClick = (e: any) => {
-    console.log("click ", e);
     setCurrent(e.key);
   };
 
@@ -53,7 +51,7 @@ const PersonModal = ({ person, setSelectedPerson, setIsModalOpen }: PersonModalP
       maskClosable
       width="fit-content"
       classNames={{
-        body: "p-4 w-full",
+        body: "p-2 w-full",
       }}
     >
       <div className="flex flex-col">
@@ -64,33 +62,51 @@ const PersonModal = ({ person, setSelectedPerson, setIsModalOpen }: PersonModalP
             }`}
           >
             {person.status === "Resgatado" ? "🟢" : "⚠️"} {person.status}
-            <p className="absolute top-1 left-1 text-xs text-gray-500">ID PESSOA: {person.id}</p>
+            <p className="absolute top-1 left-2 text-xs text-gray-500">ID PESSOA: {person.id}</p>
           </p>
-          <Menu
-            mode="horizontal"
-            className="mb-4"
-            onClick={onClick}
-            selectedKeys={[current]}
-            items={items}
-          />
-        </div>
-        <div className="flex gap-4 flex-col md:flex-row text-lg">
-          <PersonCard
-            person={person}
-            setSelectedPerson={setSelectedPerson}
-            setIsModalOpen={setIsModalOpen}
-          />
-
-          <div className="w-full h-[600px] flex">
-            <ChatProvider>
-              <ChatComponent
-                botName={`Informações sobre ${person.name}`}
-                width="100%"
-                height="100%"
-                placeholder="Compartilhe informações sobre esta pessoa..."
-              />
-            </ChatProvider>
+          <div className="justify-center w-full flex md:hidden">
+            <Menu
+              mode="horizontal"
+              className="mb-4"
+              onClick={onClick}
+              selectedKeys={[current]}
+              items={items}
+            />
           </div>
+        </div>
+        <div className="gap-4 flex-col md:flex-row text-lg flex">
+          <div className="hidden md:block">
+            <PersonCard
+              person={person}
+              setSelectedPerson={setSelectedPerson}
+              setIsModalOpen={setIsModalOpen}
+              hideTitle
+            />
+          </div>
+
+          {current === "info" && (
+            <div className="block md:hidden">
+              <PersonCard
+                person={person}
+                setSelectedPerson={setSelectedPerson}
+                setIsModalOpen={setIsModalOpen}
+                hideTitle
+              />
+            </div>
+          )}
+
+          <ChatProvider>
+            {current === "chat" && (
+              <div className="w-full h-[500px] flex">
+                <ChatComponent
+                  botName={`Informações sobre ${person.name}`}
+                  width="100%"
+                  height="100%"
+                  placeholder="Compartilhe informações sobre esta pessoa..."
+                />
+              </div>
+            )}
+          </ChatProvider>
         </div>
       </div>
     </Modal>
