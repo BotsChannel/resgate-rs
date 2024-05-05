@@ -3,32 +3,17 @@ import Image from "next/image";
 import { Button, Card } from "antd";
 import { PersonType } from "@/types/person";
 import ImageCard from "./ImageCard";
+import formatDate from "@/utils/formatDate";
 
 interface PersonCardProps {
   person: PersonType;
+  setSelectedPerson: (person: PersonType | null) => void;
 }
 
-const PersonCard: React.FC<PersonCardProps> = ({ person }) => {
-  function formatDate(milliseconds: string) {
-    const date = new Date(parseInt(milliseconds));
-    const day = String(date.getDate()).padStart(2, '0'); // Garante que o dia tenha dois dígitos
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Garante que o mês tenha dois dígitos
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  }
-  
+const PersonCard: React.FC<PersonCardProps> = ({ person, setSelectedPerson }) => {
   return (
     <Card
       className="text-lg shadow-lg"
-      actions={[
-        <Button 
-          key="auxiliar-button"
-          className="bg-orange-300/50 hover:bg-orange-400 border-orange-300 hover:border-orange-400"
-          onClick={() => console.log("Editar")}
-        >
-          Auxiliar
-        </Button>,
-      ]}
       title={
         <p
           className={`font-bold text-center ${
@@ -39,7 +24,7 @@ const PersonCard: React.FC<PersonCardProps> = ({ person }) => {
         </p>
       }
       style={{ width: 300, padding: 0, margin: 10 }}
-      styles={{ body: { padding: "0", minHeight: "350px" } }}
+      styles={{ body: { padding: "0 0 50px 0", minHeight: "350px" } }}
     >
       <div className="w-[300px] h-[300px] relative">
         <ImageCard photoUrl={person.photoUrl as string} />
@@ -53,11 +38,19 @@ const PersonCard: React.FC<PersonCardProps> = ({ person }) => {
         {person.status === "Resgatado" && (
           <>
             {person.abrigo && <p>Abrigo: {person.abrigo}</p>}
-            {person.entrada && (
-              <p>Data de entrada: {formatDate(person.entrada)}</p>
-            )}
+            {person.entrada && <p>Data de entrada: {formatDate(person.entrada)}</p>}
           </>
         )}
+      </div>
+
+      <div className="flex justify-center p-2 absolute bottom-0 w-full">
+        <Button
+          type="primary"
+          className="w-full"
+          onClick={() => setSelectedPerson(person)}
+        >
+          Ver detalhes
+        </Button>
       </div>
     </Card>
   );

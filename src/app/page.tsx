@@ -1,35 +1,51 @@
 "use client";
 import CreatePersonModal from "@/components/CreatePersonModal";
 import Filtros from "@/components/FiltersCollpase";
-import PersonCardList from "@/components/PersonCardList";
-import { Button, Collapse, Select } from "antd";
-import React, { useState, useEffect } from "react";
+import PersonCard from "@/components/PersonCard";
+import PersonModal from "@/components/PersonModal";
+import { Button, Collapse, Input, Select, Spin } from "antd";
+import React, { useEffect, useState } from "react";
 
 const Resgate: React.FC = () => {
   const [searchText, setSearchText] = useState<string>("");
   const [selectedCity, setSelectedCity] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const [minAge, setMinAge] = useState<number>(0);
   const [maxAge, setMaxAge] = useState<number>(120);
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
   const [people, setPeople] = useState<any[]>([]);
+  const [selectedPerson, setSelectedPerson] = useState<any | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const fetchedPeople = await fetch("/api/people").then((res) => res.json());
+      const fetchedPeople = await fetch("/api/people").then((res) =>
+        res.json().finally(() => setLoading(false))
+      );
       console.log(fetchedPeople);
 
-      const formattedPeople = fetchedPeople.map((person: { name: string; age: number; status: string; photoUrl: string; cidade: string; endereco: string; abrigo: string; entrada: string; }) => ({
-        name: person.name,
-        age: person.age,
-        status: person.status,
-        photoUrl: person.photoUrl,
-        cidade: person.cidade,
-        endereco: person.endereco,
-        abrigo: person.abrigo,
-        entrada: person.entrada,
-      }));
+      const formattedPeople = fetchedPeople.map(
+        (person: {
+          name: string;
+          age: number;
+          status: string;
+          photoUrl: string;
+          cidade: string;
+          endereco: string;
+          abrigo: string;
+          entrada: string;
+        }) => ({
+          name: person.name,
+          age: person.age,
+          status: person.status,
+          photoUrl: person.photoUrl,
+          cidade: person.cidade,
+          endereco: person.endereco,
+          abrigo: person.abrigo,
+          entrada: person.entrada,
+        })
+      );
 
       setPeople(formattedPeople);
     };
@@ -38,14 +54,16 @@ const Resgate: React.FC = () => {
   }, []);
 
   // Function to filter people based on search text, city, age, and status
-  const filteredPeople = people.filter((person: { name: string; cidade: string; age: number; status: string; }) => {
-    const matchesSearchText = person.name.toLowerCase().includes(searchText.toLowerCase());
-    const matchesCity = selectedCity ? person.cidade === selectedCity : true;
-    const isInAgeRange = person.age ? person.age >= minAge && person.age <= maxAge : true;
-    const matchesStatus = statusFilter !== null ? person.status === statusFilter : true;
+  const filteredPeople = people.filter(
+    (person: { name: string; cidade: string; age: number; status: string }) => {
+      const matchesSearchText = person.name.toLowerCase().includes(searchText.toLowerCase());
+      const matchesCity = selectedCity ? person.cidade === selectedCity : true;
+      const isInAgeRange = person.age ? person.age >= minAge && person.age <= maxAge : true;
+      const matchesStatus = statusFilter !== null ? person.status === statusFilter : true;
 
-    return matchesSearchText && matchesCity && isInAgeRange && matchesStatus;
-  });
+      return matchesSearchText && matchesCity && isInAgeRange && matchesStatus;
+    }
+  );
 
   return (
     <>
@@ -53,32 +71,49 @@ const Resgate: React.FC = () => {
         isOpen={isModalOpen}
         setIsOpen={setIsModalOpen}
       />
-      <div className="container mx-auto px-4 py-8 space-y-8 max-w-5xl">
+      <PersonModal
+        person={selectedPerson}
+        setSelectedPerson={setSelectedPerson}
+      />
+
+      <div className="container mx-auto px-4 py-8 space-y-8 max-w-5xl mih-h-screen">
         <h1 className="text-4xl lg:text-7xl font-bold text-center text-gray-800 mb-4 lg:mb-12">
           RS Resgate
         </h1>
-        <Collapse
-          size="large"
-          defaultActiveKey={["1"]}
-          items={[
-            {
-              key: "1",
-              label: "Pesquisar por pessoa",
-              children: (
-                <Filtros
-                  people={people}
-                  searchText={searchText}
-                  setSearchText={setSearchText}
-                  setMinAge={setMinAge}
-                  setMaxAge={setMaxAge}
-                  selectedCity={selectedCity}
-                  setSelectedCity={setSelectedCity}
-                />
-              ),
-            },
-          ]}
-        />
+        <p className="text-lg text-gray-800 text-center">
+          Encontre pessoas desaparecidas e resgatadas em tempo real.
+        </p>
+        <div className="flex flex-col">
+          <p className="ant-form-item-label mb-2 text-md">Nome</p>
 
+          <Input
+            type="text"
+            placeholder="Buscar por nome..."
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            className="border border-gray-300 rounded px-3 py-2 mb-2"
+          />
+          <Collapse
+            size="large"
+            items={[
+              {
+                key: "1",
+                label: "Filtrar pessoas",
+                children: (
+                  <Filtros
+                    people={people}
+                    searchText={searchText}
+                    setSearchText={setSearchText}
+                    setMinAge={setMinAge}
+                    setMaxAge={setMaxAge}
+                    selectedCity={selectedCity}
+                    setSelectedCity={setSelectedCity}
+                  />
+                ),
+              },
+            ]}
+          />
+        </div>
         <div className="flex justify-between items-center flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 ">
           <Select
             onChange={(value) => setStatusFilter(value)}
@@ -106,8 +141,21 @@ const Resgate: React.FC = () => {
             {filteredPeople.length} pessoas encontradas
           </h2>
         </div>
-        <PersonCardList people={filteredPeople} />
-        {filteredPeople.length === 0 && (
+        {loading && (
+          <div className="flex justify-center w-full">
+            <Spin size="large" />
+          </div>
+        )}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
+          {filteredPeople.map((person) => (
+            <PersonCard
+              key={person.id}
+              person={person}
+              setSelectedPerson={setSelectedPerson}
+            />
+          ))}
+        </div>
+        {filteredPeople.length === 0 && loading === false && (
           <p className="text-lg text-gray-800 text-center">
             Nenhuma pessoa encontrada com os filtros selecionados.
           </p>

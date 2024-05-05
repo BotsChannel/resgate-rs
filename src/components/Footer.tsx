@@ -19,7 +19,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex items-center text-neutral-700 flex-col justify-start">
-          <h3 className="text-xl font-bold mb-4">Informações de apoio:</h3>
+          <h3 className="text-xl font-bold mb-4">Desenvolvedores:</h3>
           <div className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4 mb-4">
             <Link
               className="flex gap-1 items-center hover:text-blue-500"

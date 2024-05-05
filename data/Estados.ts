@@ -1,4 +1,4 @@
-const cidades = [
+const Estados = [
   "Aceguá",
   "Água Santa",
   "Agudo",
@@ -497,4 +497,4 @@ const cidades = [
   "Xangri-lá",
 ];
 
-export default cidades;
+export default Estados;

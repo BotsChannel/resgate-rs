@@ -1,4 +1,5 @@
 import { Form, Select, Slider, Button, Input } from "antd";
+import cidades from "@/data/cidades";
 
 const Filtros = ({
   people,
@@ -18,7 +19,6 @@ const Filtros = ({
   setSelectedCity: (value: string) => void;
 }) => {
   const [form] = Form.useForm();
-  const cities = Array.from(new Set(people.map((person: any) => person.cidade)));
 
   return (
     <Form
@@ -27,16 +27,10 @@ const Filtros = ({
       initialValues={{ remember: true }}
       onFinish={() => {}}
     >
-      <Form.Item label="Nome">
-        <Input
-          type="text"
-          placeholder="Buscar por nome..."
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          className="border border-gray-300 rounded px-3 py-2 mb-4"
-        />
-      </Form.Item>
-      <Form.Item label="Sexo">
+      <Form.Item
+        label="Sexo"
+        name="sexo"
+      >
         <Select
           placeholder="Selecione o sexo"
           className="min-h-[40px]"
@@ -47,28 +41,37 @@ const Filtros = ({
           ]}
         />
       </Form.Item>
-      <Form.Item label="Idade">
+      <Form.Item
+        label="Idade"
+        name="age"
+      >
         <Slider
           range
           min={0}
           max={120}
-          defaultValue={[0, 100]}
+          defaultValue={[0, 120]}
           onChange={(value) => {
             setMinAge(value[0]);
             setMaxAge(value[1]);
           }}
         />
       </Form.Item>
-      <Form.Item label="Cidade">
+      <Form.Item
+        label="Cidade"
+        name="cidade"
+      >
         <Select
           placeholder="Selecione a cidade"
           className="min-h-[40px]"
-          options={cities.map((city) => ({ label: city, value: city }))}
+          options={cidades.map((city) => ({ label: city, value: city }))}
           onChange={(value) => setSelectedCity(value)}
           value={selectedCity}
         />
       </Form.Item>
-      <Form.Item label="Ultimo endereço conhecido">
+      <Form.Item
+        label="Ultimo endereço conhecido"
+        name="endereco"
+      >
         <Input
           type="text"
           placeholder="Buscar por endereço..."
