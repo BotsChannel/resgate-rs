@@ -12,7 +12,7 @@ model Comment {
 import { getComments, postComment } from "@/lib/prisma/queries/comments";
 import { NextRequest } from "next/server";
 
-export async function get(
+export async function GET(
     req: NextRequest,
     context: {
         params: {
@@ -28,7 +28,7 @@ export async function get(
     };
 }
 
-export async function post(
+export async function POST(
     req: NextRequest,
     context: {
         params: {
