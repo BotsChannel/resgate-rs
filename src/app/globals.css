@@ -8,11 +8,15 @@
   --background-end-color: #fff;
 }
 
-body::webkit-scrollbar {
-  width: 6px;
+::webkit-scrollbar {
+  width: 6px !important;
 }
 
-body::webkit-scrollbar-thumb {
+::webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::webkit-scrollbar-thumb {
   background-color: #ccc;
   border-radius: 9999px;
 }

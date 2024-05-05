@@ -6,21 +6,43 @@ import { addImage } from "@/lib/prisma/queries/images";
 import { toast } from "react-toastify";
 import cidades from "../data/cidades";
 import unidecode from "unidecode";
+import { PersonType } from "@/types/person";
 
 const CreatePersonModal = ({
   isOpen,
   setIsOpen,
+  person,
 }: {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
+  person?: PersonType;
 }) => {
   const [selectedStatus, setSelectedStatus] = useState<string>("Desaparecido");
   const [form] = Form.useForm();
   const { Item } = Form;
+
+  if (!isOpen) {
+    return null;
+  }
+
+  if (person !== null && person !== undefined) {
+    form.setFieldsValue({
+      name: person.name,
+      age: person.age,
+      cidade: person.cidade,
+      endereco: person.endereco,
+      status: person.status,
+      abrigo: person.abrigo,
+      entrada: person.entrada,
+      photoUrl: person.photoUrl,
+    });
+  } else {
+    form.resetFields();
+  }
+
   async function submitPerson() {
     const values = form.getFieldsValue();
-
-    const person = {
+    const newPerson = {
       name: values.name,
       age: parseInt(values.age),
       cidade: values.cidade,
@@ -28,29 +50,35 @@ const CreatePersonModal = ({
       abrigo: "null",
       entrada: "null",
       status: values.status,
-      photoUrl: await addImage(values.photoUrl.fileList[0].originFileObj),
+      photoUrl: (await addImage(values.photoUrl.originFileObj)) ?? "",
     };
 
-    if (values.status === "Resgatado") {
-      person.abrigo = values.abrigo;
-      person.entrada = new Date(values.entrada).getTime().toString();
-    }
-
-    await fetch("/api/people", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(person),
-    }).then((response) => {
-      if (response.ok) {
-        setIsOpen(false);
-        form.resetFields();
-        toast.success("Pessoa adicionada com sucesso!");
-      } else {
-        toast.error("Erro ao adicionar pessoa. Por favor, tente novamente.");
+    if (person !== null && person !== undefined) {
+      //@TODO -  Update person
+      console.log("Update person");
+      return;
+    } else {
+      if (values.status === "Resgatado") {
+        newPerson.abrigo = values.abrigo;
+        newPerson.entrada = new Date(values.entrada).getTime().toString();
       }
-    });
+
+      await fetch("/api/people", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newPerson),
+      }).then((response) => {
+        if (response.ok) {
+          setIsOpen(false);
+          form.resetFields();
+          toast.success("Pessoa adicionada com sucesso!");
+        } else {
+          toast.error("Erro ao adicionar pessoa. Por favor, tente novamente.");
+        }
+      });
+    }
   }
 
   return (
@@ -187,7 +215,7 @@ const CreatePersonModal = ({
             htmlType="submit"
             size="large"
           >
-            Adicionar pessoa
+            {person ? "Atualizar pessoa" : "Adicionar pessoa"}
           </Button>
         </div>
       </Form>

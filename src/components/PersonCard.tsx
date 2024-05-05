@@ -9,9 +9,15 @@ interface PersonCardProps {
   person: PersonType;
   showButton?: boolean;
   setSelectedPerson: (person: PersonType | null) => void;
+  setIsModalOpen?: (value: boolean) => void;
 }
 
-const PersonCard: React.FC<PersonCardProps> = ({ person, setSelectedPerson, showButton }) => {
+const PersonCard: React.FC<PersonCardProps> = ({
+  person,
+  setSelectedPerson,
+  showButton,
+  setIsModalOpen,
+}) => {
   return (
     <Card
       className="text-lg shadow-lg"
@@ -58,7 +64,10 @@ const PersonCard: React.FC<PersonCardProps> = ({ person, setSelectedPerson, show
           <Button
             type="primary"
             className="w-full"
-            onClick={() => setSelectedPerson(person)}
+            onClick={() => {
+              setSelectedPerson(person);
+              setIsModalOpen && setIsModalOpen(true);
+            }}
           >
             Editar
           </Button>

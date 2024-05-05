@@ -1,23 +1,53 @@
 "use client";
 import { PersonType } from "@/types/person";
-import { Modal } from "antd";
+import { Menu, Modal } from "antd";
 import ChatComponent from "./Chat/Chat";
 import { ChatProvider } from "./Chat/ChatProvider";
 import PersonCard from "./PersonCard";
+import { MessageOutlined, InfoCircleOutlined } from "@ant-design/icons";
+import { MenuProps } from "antd/lib/menu";
+import { useState } from "react";
+
+type MenuItem = Required<MenuProps>["items"][number];
+
+const items: MenuItem[] = [
+  {
+    label: "Informações",
+    key: "mail",
+    icon: <InfoCircleOutlined />,
+  },
+  {
+    label: "Chat",
+    key: "app",
+    icon: <MessageOutlined />,
+    disabled: true,
+  },
+];
 
 interface PersonModalProps {
   person: PersonType;
   setSelectedPerson: (person: PersonType | null) => void;
+  setIsModalOpen: (value: boolean) => void;
 }
 
-const PersonModal = ({ person, setSelectedPerson }: PersonModalProps) => {
+const PersonModal = ({ person, setSelectedPerson, setIsModalOpen }: PersonModalProps) => {
+  const [current, setCurrent] = useState("mail");
+
+  const onClick = (e: any) => {
+    console.log("click ", e);
+    setCurrent(e.key);
+  };
+
   if (!person) {
     return null;
   }
+
   return (
     <Modal
       open={!!person}
       onCancel={() => setSelectedPerson(null)}
+      closable
+      afterClose={() => setSelectedPerson(null)}
       footer={null}
       centered
       maskClosable
@@ -36,11 +66,19 @@ const PersonModal = ({ person, setSelectedPerson }: PersonModalProps) => {
             {person.status === "Resgatado" ? "🟢" : "⚠️"} {person.status}
             <p className="absolute top-1 left-1 text-xs text-gray-500">ID PESSOA: {person.id}</p>
           </p>
+          <Menu
+            mode="horizontal"
+            className="mb-4"
+            onClick={onClick}
+            selectedKeys={[current]}
+            items={items}
+          />
         </div>
         <div className="flex gap-4 flex-col md:flex-row text-lg">
           <PersonCard
             person={person}
             setSelectedPerson={setSelectedPerson}
+            setIsModalOpen={setIsModalOpen}
           />
 
           <div className="w-full h-[600px] flex">

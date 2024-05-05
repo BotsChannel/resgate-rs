@@ -112,7 +112,7 @@ const ChatComponent: React.FC<ChatProps> = ({
                 >
                   <div className={styles.messageHeader}>
                     <span className={styles.messageSender}>
-                      {message.isUser ? "You" : ChatBotName}
+                      {message.isUser ? "Você" : ChatBotName}
                     </span>
                   </div>
                   <div className={styles.messageBubble}>
