@@ -26,8 +26,8 @@ const Resgate: React.FC = () => {
       );
 
       fetch("/api/people").then((res) => console.log(res));
-      if (fetchedPeople.ok === false) {
-        setError("Error fetching people");
+      if (fetchedPeople.ok !== true) {
+        setError(fetchedPeople.message ?? "Erro ao buscar pessoas.");
         return;
       }
 
@@ -99,7 +99,11 @@ const Resgate: React.FC = () => {
             placeholder="Buscar por nome..."
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
-            className="border border-gray-300 rounded px-3 py-2 mb-2"
+            className="border border-gray-300 min-h-[40px]"
+            style={{
+              boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)",
+              marginBottom: "0.75rem",
+            }}
           />
           <Collapse
             size="large"

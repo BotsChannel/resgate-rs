@@ -1,5 +1,6 @@
 import { Form, Select, Slider, Button, Input } from "antd";
 import cidades from "@/data/cidades";
+import { useForm } from "antd/es/form/Form";
 
 const Filtros = ({
   people,
@@ -18,7 +19,8 @@ const Filtros = ({
   selectedCity: string;
   setSelectedCity: (value: string) => void;
 }) => {
-  const [form] = Form.useForm();
+  const [form] = useForm();
+  const { Item } = Form;
 
   return (
     <Form
@@ -27,7 +29,7 @@ const Filtros = ({
       initialValues={{ remember: true }}
       onFinish={() => {}}
     >
-      <Form.Item
+      <Item
         label="Sexo"
         name="sexo"
       >
@@ -40,8 +42,8 @@ const Filtros = ({
             { label: "Animal", value: "animal" },
           ]}
         />
-      </Form.Item>
-      <Form.Item
+      </Item>
+      <Item
         label="Idade"
         name="age"
       >
@@ -55,8 +57,8 @@ const Filtros = ({
             setMaxAge(value[1]);
           }}
         />
-      </Form.Item>
-      <Form.Item
+      </Item>
+      <Item
         label="Cidade"
         name="cidade"
       >
@@ -67,8 +69,8 @@ const Filtros = ({
           onChange={(value) => setSelectedCity(value)}
           value={selectedCity}
         />
-      </Form.Item>
-      <Form.Item
+      </Item>
+      <Item
         label="Ultimo endereço conhecido"
         name="endereco"
       >
@@ -77,7 +79,7 @@ const Filtros = ({
           placeholder="Buscar por endereço..."
           className="border border-gray-300 rounded px-3 py-2 mb-4"
         />
-      </Form.Item>
+      </Item>
       {/* <div className="flex justify-end">
           <Button
             type="primary"

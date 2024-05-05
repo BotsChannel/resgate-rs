@@ -11,11 +11,23 @@ const Footer = () => {
           <div className="flex items-center flex-row space-x-4 lg:items-start">
             <div className="space-y-2">
               <p className="font-semibold">Resgate bombeiros</p>
-              <p>(51) 98402-6119</p>
+              <Link
+                className="text-blue-500 hover:underline font-semibold transition-all"
+                target="_blank"
+                href={`https://api.whatsapp.com/send/?phone=${51984026119}&text&type=phone_number&app_absent=0`}
+              >
+                (51) 98402-6119
+              </Link>
             </div>
             <div className="space-y-2">
               <p className="font-semibold">Resgate Helicóptero</p>
-              <p>(51) 98401-2527</p>
+              <Link
+                className="text-blue-500 hover:underline font-semibold transition-all"
+                target="_blank"
+                href={`https://api.whatsapp.com/send/?phone=${51984012527}&text&type=phone_number&app_absent=0`}
+              >
+                (51) 98401-2527
+              </Link>
             </div>
           </div>
         </div>
