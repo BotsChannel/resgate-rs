@@ -110,13 +110,8 @@ const ChatComponent: React.FC<ChatProps> = ({
                   id={message.id}
                   className={`${message.isUser ? styles.userMessage : styles.botMessage}`}
                 >
-                  <div className={styles.messageHeader}>
-                    <span className={styles.messageSender}>
-                      {message.isUser ? "You" : ChatBotName}
-                    </span>
-                  </div>
                   <div className={styles.messageBubble}>
-                    <p>{message.text}</p>
+                    <p className="mt-1">{message.text}</p>
                     <span className={styles.timestamp}>{message.timestamp}</span>
                   </div>
                 </div>

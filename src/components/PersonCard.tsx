@@ -9,27 +9,41 @@ interface PersonCardProps {
   person: PersonType;
   showButton?: boolean;
   setSelectedPerson: (person: PersonType | null) => void;
+  setIsModalOpen?: (value: boolean) => void;
+  hideTitle?: boolean;
 }
 
-const PersonCard: React.FC<PersonCardProps> = ({ person, setSelectedPerson, showButton }) => {
+const PersonCard: React.FC<PersonCardProps> = ({
+  person,
+  setSelectedPerson,
+  showButton,
+  setIsModalOpen,
+  hideTitle,
+}) => {
   return (
     <Card
-      className="text-lg shadow-lg"
+      className="text-lg shadow-lg h-full rounded-lg"
       title={
-        <p
-          className={`font-bold text-center ${
-            person.status === "Resgatado" ? "text-green-500" : "text-red-500"
-          }`}
-        >
-          {person.status === "Resgatado" ? "🟢" : "⚠️"} {person.status}
-        </p>
+        hideTitle ? null : (
+          <p
+            className={`font-bold text-center ${
+              person.status === "Resgatado" ? "text-green-500" : "text-red-500"
+            }`}
+          >
+            {person.status === "Resgatado" ? "🟢" : "⚠️"} {person.status}
+          </p>
+        )
       }
-      style={{ width: 300, padding: 0, margin: 0 }}
+      style={{ width: 300, padding: 0, margin: 0, borderRadius: "10px" }}
       styles={{
-        body: { padding: showButton ? "0 0 50px 0" : "0", minHeight: "300px" },
+        body: {
+          padding: showButton ? "0 0 50px 0" : "0",
+          minHeight: "300px",
+          borderRadius: "10px",
+        },
       }}
     >
-      <div className="w-[300px] h-[300px] relative">
+      <div className={`w-[300px] h-[300px] relative ${hideTitle ? "rounded-t-lg" : ""}`}>
         <ImageCard photoUrl={person.photoUrl as string} />
       </div>
       <div className="flex justify-between flex-col p-2 h-full">
@@ -45,7 +59,7 @@ const PersonCard: React.FC<PersonCardProps> = ({ person, setSelectedPerson, show
           </>
         )}
       </div>
-      <div className="flex justify-center p-2 absolute bottom-0 w-full">
+      <div className="flex justify-center mt-[35px] absolute bottom-0 w-full">
         {showButton ? (
           <Button
             type="primary"
@@ -58,7 +72,10 @@ const PersonCard: React.FC<PersonCardProps> = ({ person, setSelectedPerson, show
           <Button
             type="primary"
             className="w-full"
-            onClick={() => setSelectedPerson(person)}
+            onClick={() => {
+              setSelectedPerson(person);
+              setIsModalOpen && setIsModalOpen(true);
+            }}
           >
             Editar
           </Button>

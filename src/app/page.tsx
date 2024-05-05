@@ -25,8 +25,7 @@ const Resgate: React.FC = () => {
         res.json().finally(() => setLoading(false))
       );
 
-      fetch("/api/people").then((res) => console.log(res));
-      if (fetchedPeople.ok !== true) {
+      if (fetchedPeople.ok === false) {
         setError(fetchedPeople.message ?? "Erro ao buscar pessoas.");
         return;
       }
@@ -61,6 +60,10 @@ const Resgate: React.FC = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    console.log(selectedPerson);
+  }, [selectedPerson]);
+
   // Function to filter people based on search text, city, age, and status
   const filteredPeople = people.filter(
     (person: { name: string; cidade: string; age: number; status: string }) => {
@@ -78,10 +81,12 @@ const Resgate: React.FC = () => {
       <CreatePersonModal
         isOpen={isModalOpen}
         setIsOpen={setIsModalOpen}
+        person={selectedPerson}
       />
       <PersonModal
         person={selectedPerson}
         setSelectedPerson={setSelectedPerson}
+        setIsModalOpen={setIsModalOpen}
       />
 
       <div className="container mx-auto px-4 py-8 space-y-8 max-w-5xl min-h-screen">
@@ -142,7 +147,10 @@ const Resgate: React.FC = () => {
             type="primary"
             size="large"
             className="px-8 min-h-12"
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => {
+              setSelectedPerson(null);
+              setIsModalOpen(true);
+            }}
           >
             Adicionar pessoa
           </Button>
@@ -154,7 +162,7 @@ const Resgate: React.FC = () => {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center bg-gray-200 p-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 justify-items-center bg-gray-200 p-4">
           {filteredPeople.map((person) => (
             <PersonCard
               key={person.id}
