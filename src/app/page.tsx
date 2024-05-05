@@ -26,7 +26,7 @@ const Resgate: React.FC = () => {
       );
 
       fetch("/api/people").then((res) => console.log(res));
-      if (fetchedPeople.message === "Error fetching people") {
+      if (fetchedPeople.ok === false) {
         setError("Error fetching people");
         return;
       }
