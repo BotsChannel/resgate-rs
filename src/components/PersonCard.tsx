@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { Card } from "antd";
+import { Button, Card } from "antd";
 import { PersonType } from "../../types/person";
 import silhuetas from "../../public/silhuetas.png";
 
@@ -12,6 +12,11 @@ const PersonCard: React.FC<PersonCardProps> = ({ person }) => {
   return (
     <Card
       className="text-lg shadow-lg"
+      actions={[
+        <Button className="bg-orange-300/50 hover:bg-orange-400 border-orange-300 hover:border-orange-400">
+          Auxiliar
+        </Button>,
+      ]}
       title={
         <p
           className={`font-bold text-center ${
@@ -22,7 +27,7 @@ const PersonCard: React.FC<PersonCardProps> = ({ person }) => {
         </p>
       }
       style={{ width: 300, padding: 0, margin: 10 }}
-      styles={{ body: { padding: "0" } }}
+      styles={{ body: { padding: "0", minHeight: "350px" } }}
     >
       <div className="w-[300px] h-[300px] relative">
         <Image
@@ -33,7 +38,7 @@ const PersonCard: React.FC<PersonCardProps> = ({ person }) => {
           sizes="300px"
         />
       </div>
-      <div className="flex justify-start flex-col p-2">
+      <div className="flex justify-between flex-col p-2 h-full">
         <h3 className="font-bold text-2xl my-2">
           {person.name}, {person.age && person.age}
         </h3>

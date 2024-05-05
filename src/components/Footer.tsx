@@ -18,26 +18,27 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="flex items-center space-x-2 text-neutral-700">
-          <p>Desenvolvido por:</p>
-          <Link
-            className="flex gap-1 items-center hover:text-blue-500"
-            href="https://www.instagram.com/lucasdinizostroski/"
-          >
-            <InstagramOutlined className="text-blue-500" />
-            <span className="ml-1">Lucas Diniz</span>
-          </Link>
-          <span>e</span>
-          <Link
-            className="flex gap-1 items-center hover:text-blue-500"
-            href="https://www.instagram.com/soaresgabe/"
-          >
-            <InstagramOutlined className="text-blue-500" />
-            <span className="ml-1">Gabriel Soares</span>
-          </Link>
+        <div className="flex items-center text-neutral-700 flex-col justify-start">
+          <h3 className="text-xl font-bold mb-4">Informações de apoio:</h3>
+          <div className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4 mb-4">
+            <Link
+              className="flex gap-1 items-center hover:text-blue-500"
+              href="https://www.instagram.com/lucasdinizostroski/"
+            >
+              <InstagramOutlined className="text-blue-500" />
+              <span className="ml-1">Lucas Diniz</span>
+            </Link>
+            <Link
+              className="flex gap-1 items-center hover:text-blue-500"
+              href="https://www.instagram.com/soaresgabe/"
+            >
+              <InstagramOutlined className="text-blue-500" />
+              <span className="ml-1">Gabriel Soares</span>
+            </Link>
+          </div>
         </div>
       </div>
-      <hr className="w-full border-neutral-400" />
+      <hr className="w-full border-neutral-400 mt-2" />
     </footer>
   );
 };
