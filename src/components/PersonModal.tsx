@@ -3,6 +3,8 @@ import { Modal } from "antd";
 import ImageCard from "./ImageCard";
 import formatDate from "@/utils/formatDate";
 import ChatComponent from "./Chat/Chat";
+import PersonCard from "./PersonCard";
+import { ChatProvider } from "./Chat/ChatProvider";
 
 interface PersonModalProps {
   person: PersonType;
@@ -33,34 +35,26 @@ const PersonModal = ({ person, setSelectedPerson }: PersonModalProps) => {
             }`}
           >
             {person.status === "Resgatado" ? "🟢" : "⚠️"} {person.status}
-          </p>{" "}
+            {/* ID:
+            {person.id} */}
+          </p>
         </div>
-        <p className="text-sm">
-          ID:
-          {person.id}
-        </p>
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">{person.name}</h2>
         <div className="flex gap-4 flex-col md:flex-row text-lg">
-          <div className="w-[300px] h-[300px] relative">
-            <ImageCard photoUrl={person.photoUrl as string} />
-            <p className="mt-2">Cidade: {person.cidade}</p>
-            {person.endereco && <p>Endereço: {person.endereco}</p>}
-            {person.status === "Resgatado" && (
-              <>
-                {person.abrigo && <p>Abrigo: {person.abrigo}</p>}
-                {person.entrada && <p>Data de entrada: {formatDate(person.entrada)}</p>}
-              </>
-            )}
-            {person.age && <p>Idade: {person.age}</p>}
+          <PersonCard
+            person={person}
+            setSelectedPerson={setSelectedPerson}
+          />
+
+          <div className="w-full h-[500px] flex">
+            <ChatProvider>
+              <ChatComponent
+                botName={`Informações sobre ${person.name}`}
+                width="100%"
+                height="100%"
+                placeholder="Compartilhe informações sobre esta pessoa..."
+              />
+            </ChatProvider>
           </div>
-          <div className="min-w-[500px]">
-            <ChatComponent
-              botName={`Informações sobre ${person.name}`}
-              width="100%"
-              placeholder="Compartilhe informações sobre esta pessoa..."
-            />
-          </div>
-          <div></div>
         </div>
       </div>
     </Modal>

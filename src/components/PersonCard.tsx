@@ -7,10 +7,11 @@ import formatDate from "@/utils/formatDate";
 
 interface PersonCardProps {
   person: PersonType;
+  showButton?: boolean;
   setSelectedPerson: (person: PersonType | null) => void;
 }
 
-const PersonCard: React.FC<PersonCardProps> = ({ person, setSelectedPerson }) => {
+const PersonCard: React.FC<PersonCardProps> = ({ person, setSelectedPerson, showButton }) => {
   return (
     <Card
       className="text-lg shadow-lg"
@@ -23,8 +24,10 @@ const PersonCard: React.FC<PersonCardProps> = ({ person, setSelectedPerson }) =>
           {person.status === "Resgatado" ? "🟢" : "⚠️"} {person.status}
         </p>
       }
-      style={{ width: 300, padding: 0, margin: 10 }}
-      styles={{ body: { padding: "0 0 50px 0", minHeight: "350px" } }}
+      style={{ width: 300, padding: 0, margin: 0 }}
+      styles={{
+        body: { padding: showButton ? "0 0 50px 0" : "0", minHeight: "300px" },
+      }}
     >
       <div className="w-[300px] h-[300px] relative">
         <ImageCard photoUrl={person.photoUrl as string} />
@@ -42,16 +45,17 @@ const PersonCard: React.FC<PersonCardProps> = ({ person, setSelectedPerson }) =>
           </>
         )}
       </div>
-
-      <div className="flex justify-center p-2 absolute bottom-0 w-full">
-        <Button
-          type="primary"
-          className="w-full"
-          onClick={() => setSelectedPerson(person)}
-        >
-          Ver detalhes
-        </Button>
-      </div>
+      {showButton && (
+        <div className="flex justify-center p-2 absolute bottom-0 w-full">
+          <Button
+            type="primary"
+            className="w-full"
+            onClick={() => setSelectedPerson(person)}
+          >
+            Ver detalhes
+          </Button>
+        </div>
+      )}
     </Card>
   );
 };

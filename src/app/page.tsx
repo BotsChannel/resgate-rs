@@ -152,6 +152,7 @@ const Resgate: React.FC = () => {
               key={person.id}
               person={person}
               setSelectedPerson={setSelectedPerson}
+              showButton
             />
           ))}
         </div>
