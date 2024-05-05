@@ -1,6 +1,6 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import PersonCardList from '@/components/PersonCardList';
-import { getPeople } from '@/lib/prisma/queries/people';
 
 interface Person {
   id: string;
@@ -13,6 +13,12 @@ interface Person {
 }
 
 const Resgate: React.FC = () => {
+  const [searchText, setSearchText] = useState<string>('');
+  const [selectedCity, setSelectedCity] = useState<string>('');
+  const [minAge, setMinAge] = useState<number>(0);
+  const [maxAge, setMaxAge] = useState<number>(100);
+  const [statusFilter, setStatusFilter] = useState<string>('');
+
   // const people = await getPeople();
   const people: Person[] = [
     {
@@ -197,10 +203,78 @@ const Resgate: React.FC = () => {
     },
   ];
 
+  const cities = Array.from(new Set(people.map((person) => person.cidade)));
+
+  // Function to filter people based on search text, city, age, and status
+  const filteredPeople = people.filter((person) => {
+    const matchesSearchText = person.name.toLowerCase().includes(searchText.toLowerCase());
+    const matchesCity = selectedCity ? person.cidade === selectedCity : true;
+    const isInAgeRange = person.age >= minAge && person.age <= maxAge;
+    const matchesStatus = statusFilter ? person.status === statusFilter : true;
+
+    return matchesSearchText && matchesCity && isInAgeRange && matchesStatus;
+  });
+
   return (
     <div className="container mx-auto px-4 py-8 space-y-8 max-w-5xl">
       <h1 className="text-3xl font-bold mb-4">Pessoas Desaparecidas ou Encontradas</h1>
-      <PersonCardList people={people} />
+
+      {/* Search input */}
+      <input
+        type="text"
+        placeholder="Buscar por nome..."
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
+        className="border border-gray-300 rounded px-3 py-2 mb-4"
+      />
+
+      {/* City filter dropdown */}
+      <select
+        value={selectedCity}
+        onChange={(e) => setSelectedCity(e.target.value)}
+        className="border border-gray-300 rounded px-3 py-2 mb-4"
+      >
+        <option value="">Todas as cidades</option>
+        {cities.map((city) => (
+          <option key={city} value={city}>
+            {city}
+          </option>
+        ))}
+      </select>
+
+      {/* Age range filter */}
+      <div className="flex items-center mb-4">
+        <label className="mr-2">Idade:</label>
+        <input
+          type="number"
+          placeholder="Mínimo"
+          value={minAge}
+          onChange={(e) => setMinAge(parseInt(e.target.value))}
+          className="border border-gray-300 rounded px-2 py-1 mr-2 w-20 text-center"
+        />
+        -
+        <input
+          type="number"
+          placeholder="Máximo"
+          value={maxAge}
+          onChange={(e) => setMaxAge(parseInt(e.target.value))}
+          className="border border-gray-300 rounded px-2 py-1 ml-2 w-20 text-center"
+        />
+      </div>
+
+      {/* Status filter */}
+      <select
+        value={statusFilter}
+        onChange={(e) => setStatusFilter(e.target.value)}
+        className="border border-gray-300 rounded px-3 py-2 mb-4"
+      >
+        <option value="">Todos os status</option>
+        <option value="Desaparecido">Desaparecido</option>
+        <option value="Resgatado">Resgatado</option>
+      </select>
+
+      {/* Display filtered person cards */}
+      <PersonCardList people={filteredPeople} />
     </div>
   );
 };
