@@ -18,6 +18,8 @@ const Footer = () => {
             </div>
           </div>
         </div>
+        <hr className="w-full border-neutral-400 mt-2 lg:hidden" />
+
         <div className="flex items-center text-neutral-700 flex-col justify-start">
           <h3 className="text-xl font-bold mb-4">Desenvolvedores:</h3>
           <div className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4 mb-4">
