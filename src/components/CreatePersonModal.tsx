@@ -1,10 +1,11 @@
+"use client";
 import { Form, Modal, Select, Upload, Button, Input } from "antd";
 import { useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
 import { addImage } from "@/lib/prisma/queries/images";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import cidades from "../data/cidades";
-import unidecode from 'unidecode';
+import unidecode from "unidecode";
 
 const CreatePersonModal = ({
   isOpen,
@@ -24,8 +25,8 @@ const CreatePersonModal = ({
       age: parseInt(values.age),
       cidade: values.cidade,
       endereco: values.endereco,
-      abrigo: 'null',
-      entrada: 'null',
+      abrigo: "null",
+      entrada: "null",
       status: values.status,
       photoUrl: await addImage(values.photoUrl.fileList[0].originFileObj),
     };
@@ -91,18 +92,26 @@ const CreatePersonModal = ({
           />
         </Form.Item>
 
-        <Form.Item label="Cidade" name="cidade">
+        <Form.Item
+          label="Cidade"
+          name="cidade"
+        >
           <Select
             showSearch
             placeholder="Selecione a cidade"
             filterOption={(input, option) => {
               const normalizedInput = unidecode(input).toLowerCase();
-              const normalizedOption = unidecode((option?.children as unknown as string) ?? '').toLowerCase();
+              const normalizedOption = unidecode(
+                (option?.children as unknown as string) ?? ""
+              ).toLowerCase();
               return normalizedOption.indexOf(normalizedInput) >= 0;
             }}
           >
             {cidades.map((cidade) => (
-              <Select.Option key={cidade} value={cidade}>
+              <Select.Option
+                key={cidade}
+                value={cidade}
+              >
                 {cidade}
               </Select.Option>
             ))}

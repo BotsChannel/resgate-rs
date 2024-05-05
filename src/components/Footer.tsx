@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { InstagramOutlined } from "@ant-design/icons";
 
@@ -6,14 +7,14 @@ const Footer = () => {
     <footer className="bg-zinc-200 text-center lg:text-left p-8">
       <div className="flex flex-col items-center justify-center space-y-4 lg:flex-row lg:justify-between lg:space-y-0 lg:space-x-4">
         <div className="text-neutral-900 text-lg">
-          <h3 className="text-xl font-bold mb-4">Informações de apoio:</h3>
+          <h3 className="text-xl font-bold mb-4">Informações de apoio</h3>
           <div className="flex items-center flex-row space-x-4 lg:items-start">
             <div className="space-y-2">
-              <p className="font-semibold">Resgate bombeiros:</p>
+              <p className="font-semibold">Resgate bombeiros</p>
               <p>(51) 98402-6119</p>
             </div>
             <div className="space-y-2">
-              <p className="font-semibold">Resgate Helicóptero:</p>
+              <p className="font-semibold">Resgate Helicóptero</p>
               <p>(51) 98401-2527</p>
             </div>
           </div>
@@ -21,7 +22,7 @@ const Footer = () => {
         <hr className="w-full border-neutral-400 mt-2 lg:hidden" />
 
         <div className="flex items-center text-neutral-700 flex-col justify-start">
-          <h3 className="text-xl font-bold mb-4">Desenvolvedores:</h3>
+          <h3 className="text-xl font-bold mb-4">Desenvolvedores</h3>
           <div className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4 mb-4">
             <Link
               className="flex gap-1 items-center hover:text-blue-500"

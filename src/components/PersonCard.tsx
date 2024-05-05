@@ -45,8 +45,8 @@ const PersonCard: React.FC<PersonCardProps> = ({ person, setSelectedPerson, show
           </>
         )}
       </div>
-      {showButton && (
-        <div className="flex justify-center p-2 absolute bottom-0 w-full">
+      <div className="flex justify-center p-2 absolute bottom-0 w-full">
+        {showButton ? (
           <Button
             type="primary"
             className="w-full"
@@ -54,8 +54,16 @@ const PersonCard: React.FC<PersonCardProps> = ({ person, setSelectedPerson, show
           >
             Ver detalhes
           </Button>
-        </div>
-      )}
+        ) : (
+          <Button
+            type="primary"
+            className="w-full"
+            onClick={() => setSelectedPerson(person)}
+          >
+            Editar
+          </Button>
+        )}
+      </div>
     </Card>
   );
 };
