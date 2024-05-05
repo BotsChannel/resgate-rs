@@ -289,6 +289,17 @@ const Filtros = ({
           Filtrar
         </Button>
       </div> */}
+      <Button
+        onClick={() => {
+          form.resetFields();
+          setSearchText("");
+          setMinAge(0);
+          setMaxAge(120);
+          setSelectedCity("");
+        }}
+      >
+        Limpar filtros
+      </Button>
     </Form>
   );
 };
