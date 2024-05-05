@@ -33,7 +33,7 @@ const Resgate: React.FC = () => {
 
       const formattedPeople = fetchedPeople.map(
         (person: {
-          id: string;
+          id: number;
           name: string;
           age: number;
           status: string;

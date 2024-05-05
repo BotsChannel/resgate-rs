@@ -65,7 +65,7 @@ export const updatePerson = async ({
   abrigo,
   entrada,
 }: {
-  id: string
+  id: number
   name: string
   age: number
   status: string
