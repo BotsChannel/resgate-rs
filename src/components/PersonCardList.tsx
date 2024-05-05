@@ -1,6 +1,6 @@
 import React from "react";
 import PersonCard from "./PersonCard";
-import { PersonType } from "../../types/person";
+import { PersonType } from "@/types/person";
 
 interface PersonCardListProps {
   people: PersonType[];

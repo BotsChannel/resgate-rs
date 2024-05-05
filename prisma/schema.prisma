@@ -23,7 +23,7 @@ model Person {
   cidade    String
   endereco  String
   abrigo    String
-  entrada   DateTime
+  entrada   String
   comentarios Comment[]
 }
 

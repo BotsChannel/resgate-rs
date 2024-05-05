@@ -6,7 +6,7 @@ export interface PersonType {
   endereco?: string;
   status: string;
   photoUrl?: string;
-  dataEntrada?: string;
+  entrada?: string;
   abrigo?: string;
   info?: string;
 }

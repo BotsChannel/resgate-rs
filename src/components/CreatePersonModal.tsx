@@ -1,6 +1,10 @@
 import { Form, Modal, Select, Upload, Button, Input } from "antd";
 import { useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
+import { addImage } from "@/lib/prisma/queries/images";
+import { toast } from 'react-toastify';
+import cidades from "../data/cidades";
+import unidecode from 'unidecode';
 
 const CreatePersonModal = ({
   isOpen,
@@ -12,9 +16,40 @@ const CreatePersonModal = ({
   const [selectedStatus, setSelectedStatus] = useState<string>("Desaparecido");
   const [form] = Form.useForm();
 
-  function submitPerson() {
+  async function submitPerson() {
     const values = form.getFieldsValue();
-    console.log(values);
+
+    const person = {
+      name: values.name,
+      age: parseInt(values.age),
+      cidade: values.cidade,
+      endereco: values.endereco,
+      abrigo: 'null',
+      entrada: 'null',
+      status: values.status,
+      photoUrl: await addImage(values.photoUrl.fileList[0].originFileObj),
+    };
+
+    if (values.status === "Resgatado") {
+      person.abrigo = values.abrigo;
+      person.entrada = new Date(values.entrada).getTime().toString();
+    }
+
+    await fetch("/api/people", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(person),
+    }).then((response) => {
+      if (response.ok) {
+        setIsOpen(false);
+        form.resetFields();
+        toast.success("Pessoa adicionada com sucesso!");
+      } else {
+        toast.error("Erro ao adicionar pessoa. Por favor, tente novamente.");
+      }
+    });
   }
 
   return (
@@ -51,20 +86,29 @@ const CreatePersonModal = ({
         >
           <Input
             type="number"
+            defaultValue={0}
             placeholder="Idade da pessoa"
           />
         </Form.Item>
-        <Form.Item
-          label="Cidade"
-          required
-          name="cidade"
-          rules={[{ required: true, message: "Por favor, insira a cidade da pessoa" }]}
-        >
-          <Input
-            type="text"
-            placeholder="Cidade da pessoa"
-          />
+
+        <Form.Item label="Cidade" name="cidade">
+          <Select
+            showSearch
+            placeholder="Selecione a cidade"
+            filterOption={(input, option) => {
+              const normalizedInput = unidecode(input).toLowerCase();
+              const normalizedOption = unidecode((option?.children as unknown as string) ?? '').toLowerCase();
+              return normalizedOption.indexOf(normalizedInput) >= 0;
+            }}
+          >
+            {cidades.map((cidade) => (
+              <Select.Option key={cidade} value={cidade}>
+                {cidade}
+              </Select.Option>
+            ))}
+          </Select>
         </Form.Item>
+
         <Form.Item
           label="Endereço"
           name="endereco"
@@ -101,7 +145,7 @@ const CreatePersonModal = ({
             </Form.Item>
             <Form.Item
               label="Data de entrada"
-              name="dataEntrada"
+              name="entrada"
             >
               <Input
                 type="date"

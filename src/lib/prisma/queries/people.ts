@@ -36,7 +36,7 @@ export const postPerson = async ({
   cidade: string
   endereco: string
   abrigo: string
-  entrada: Date
+  entrada: string
 }) => {
   const data = {
     name,
@@ -48,6 +48,9 @@ export const postPerson = async ({
     abrigo,
     entrada,
   }
+
+  console.log(JSON.stringify(data));
+
   return await prisma.person.create({ data })
 }
 

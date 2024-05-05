@@ -1,19 +1,31 @@
 import React from "react";
 import Image from "next/image";
 import { Button, Card } from "antd";
-import { PersonType } from "../../types/person";
-import silhuetas from "../../public/silhuetas.png";
+import { PersonType } from "@/types/person";
+import ImageCard from "./ImageCard";
 
 interface PersonCardProps {
   person: PersonType;
 }
 
 const PersonCard: React.FC<PersonCardProps> = ({ person }) => {
+  function formatDate(milliseconds: string) {
+    const date = new Date(parseInt(milliseconds));
+    const day = String(date.getDate()).padStart(2, '0'); // Garante que o dia tenha dois dígitos
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Garante que o mês tenha dois dígitos
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+  
   return (
     <Card
       className="text-lg shadow-lg"
       actions={[
-        <Button className="bg-orange-300/50 hover:bg-orange-400 border-orange-300 hover:border-orange-400">
+        <Button 
+          key="auxiliar-button"
+          className="bg-orange-300/50 hover:bg-orange-400 border-orange-300 hover:border-orange-400"
+          onClick={() => console.log("Editar")}
+        >
           Auxiliar
         </Button>,
       ]}
@@ -30,13 +42,7 @@ const PersonCard: React.FC<PersonCardProps> = ({ person }) => {
       styles={{ body: { padding: "0", minHeight: "350px" } }}
     >
       <div className="w-[300px] h-[300px] relative">
-        <Image
-          src={person.photoUrl || silhuetas}
-          alt={person.name}
-          fill
-          className="object-cover"
-          sizes="300px"
-        />
+        <ImageCard photoUrl={person.photoUrl as string} />
       </div>
       <div className="flex justify-between flex-col p-2 h-full">
         <h3 className="font-bold text-2xl my-2">
@@ -44,11 +50,14 @@ const PersonCard: React.FC<PersonCardProps> = ({ person }) => {
         </h3>
         <p>Cidade: {person.cidade}</p>
         {person.endereco && <p>Endereço: {person.endereco}</p>}
-        {person.abrigo && <p>Abrigo: {person.abrigo}</p>}
-        {person.dataEntrada && (
-          <p>Data de entrada: {new Date(person.dataEntrada).toLocaleDateString()}</p>
+        {person.status === "Resgatado" && (
+          <>
+            {person.abrigo && <p>Abrigo: {person.abrigo}</p>}
+            {person.entrada && (
+              <p>Data de entrada: {formatDate(person.entrada)}</p>
+            )}
+          </>
         )}
-        {person.info && <p>Informações adicionais: {person.info}</p>}
       </div>
     </Card>
   );

@@ -14,8 +14,6 @@ const people: PersonType[] = [
     name: "Pedro Santos",
     age: 28,
     status: "Resgatado",
-    photoUrl:
-      "https://mhlvqqjzhwsfunzjwdxs.supabase.co/storage/v1/object/public/images/default.png",
     cidade: "Guaíba",
     endereco: "Avenida Principal, 456",
   },
@@ -24,8 +22,6 @@ const people: PersonType[] = [
     name: "Mariana Oliveira",
     age: 41,
     status: "Desaparecido",
-    photoUrl:
-      "https://mhlvqqjzhwsfunzjwdxs.supabase.co/storage/v1/object/public/images/default.png",
     cidade: "Porto Alegre",
     endereco: "Rua das Margaridas, 789",
   },
@@ -34,8 +30,6 @@ const people: PersonType[] = [
     name: "Lucas Costa",
     age: 25,
     status: "Resgatado",
-    photoUrl:
-      "https://mhlvqqjzhwsfunzjwdxs.supabase.co/storage/v1/object/public/images/default.png",
     cidade: "Canoas",
     endereco: "Travessa dos Pinheiros, 567",
   },
@@ -44,8 +38,6 @@ const people: PersonType[] = [
     name: "Camila Ferreira",
     age: 36,
     status: "Desaparecido",
-    photoUrl:
-      "https://mhlvqqjzhwsfunzjwdxs.supabase.co/storage/v1/object/public/images/default.png",
     cidade: "Novo Hamburgo",
     endereco: "Rua dos Lírios, 890",
   },
@@ -54,8 +46,6 @@ const people: PersonType[] = [
     name: "Rafaela Souza",
     age: 29,
     status: "Desaparecido",
-    photoUrl:
-      "https://mhlvqqjzhwsfunzjwdxs.supabase.co/storage/v1/object/public/images/default.png",
     cidade: "Porto Alegre",
     endereco: "Avenida das Palmeiras, 234",
   },
@@ -64,8 +54,6 @@ const people: PersonType[] = [
     name: "Gustavo Martins",
     age: 47,
     status: "Resgatado",
-    photoUrl:
-      "https://mhlvqqjzhwsfunzjwdxs.supabase.co/storage/v1/object/public/images/default.png",
     cidade: "Cachoeirinha",
     endereco: "Rua dos Girassóis, 678",
   },
@@ -74,8 +62,6 @@ const people: PersonType[] = [
     name: "Isabela Lima",
     age: 34,
     status: "Desaparecido",
-    photoUrl:
-      "https://mhlvqqjzhwsfunzjwdxs.supabase.co/storage/v1/object/public/images/default.png",
     cidade: "Gravataí",
     endereco: "Avenida das Acácias, 345",
   },
@@ -84,8 +70,6 @@ const people: PersonType[] = [
     name: "Felipe Almeida",
     age: 22,
     status: "Resgatado",
-    photoUrl:
-      "https://mhlvqqjzhwsfunzjwdxs.supabase.co/storage/v1/object/public/images/default.png",
     cidade: "São Leopoldo",
     endereco: "Rua das Violetas, 123",
   },
@@ -94,8 +78,6 @@ const people: PersonType[] = [
     name: "Carolina Santos",
     age: 39,
     status: "Desaparecido",
-    photoUrl:
-      "https://mhlvqqjzhwsfunzjwdxs.supabase.co/storage/v1/object/public/images/default.png",
     cidade: "Porto Alegre",
     endereco: "Avenida das Hortênsias, 890",
   },
@@ -104,8 +86,6 @@ const people: PersonType[] = [
     name: "Thiago Oliveira",
     age: 31,
     status: "Resgatado",
-    photoUrl:
-      "https://mhlvqqjzhwsfunzjwdxs.supabase.co/storage/v1/object/public/images/default.png",
     cidade: "Canoas",
     endereco: "Rua dos Cravos, 456",
   },
@@ -114,8 +94,6 @@ const people: PersonType[] = [
     name: "Amanda Rodrigues",
     age: 27,
     status: "Desaparecido",
-    photoUrl:
-      "https://mhlvqqjzhwsfunzjwdxs.supabase.co/storage/v1/object/public/images/default.png",
     cidade: "Novo Hamburgo",
     endereco: "Avenida das Azaleias, 789",
   },
@@ -124,8 +102,6 @@ const people: PersonType[] = [
     name: "Bruno Oliveira",
     age: 43,
     status: "Resgatado",
-    photoUrl:
-      "https://mhlvqqjzhwsfunzjwdxs.supabase.co/storage/v1/object/public/images/default.png",
     cidade: "Guaíba",
     endereco: "Rua das Orquídeas, 234",
   },
@@ -134,8 +110,6 @@ const people: PersonType[] = [
     name: "Juliana Mendes",
     age: 26,
     status: "Desaparecido",
-    photoUrl:
-      "https://mhlvqqjzhwsfunzjwdxs.supabase.co/storage/v1/object/public/images/default.png",
     cidade: "Porto Alegre",
     endereco: "Travessa das Bromélias, 567",
   },
@@ -144,8 +118,6 @@ const people: PersonType[] = [
     name: "Marcos Fernandes",
     age: 37,
     status: "Desaparecido",
-    photoUrl:
-      "https://mhlvqqjzhwsfunzjwdxs.supabase.co/storage/v1/object/public/images/default.png",
     cidade: "Canoas",
     endereco: "Avenida dos Jasmins, 890",
   },
@@ -154,8 +126,6 @@ const people: PersonType[] = [
     name: "Carla Santos",
     age: 33,
     status: "Resgatado",
-    photoUrl:
-      "https://mhlvqqjzhwsfunzjwdxs.supabase.co/storage/v1/object/public/images/default.png",
     cidade: "Gravataí",
     endereco: "Rua das Camélias, 123",
   },
@@ -164,8 +134,6 @@ const people: PersonType[] = [
     name: "Renato Costa",
     age: 44,
     status: "Desaparecido",
-    photoUrl:
-      "https://mhlvqqjzhwsfunzjwdxs.supabase.co/storage/v1/object/public/images/default.png",
     cidade: "Novo Hamburgo",
     endereco: "Avenida das Magnólias, 456",
   },
@@ -174,8 +142,6 @@ const people: PersonType[] = [
     name: "Fernanda Lima",
     age: 30,
     status: "Resgatado",
-    photoUrl:
-      "https://mhlvqqjzhwsfunzjwdxs.supabase.co/storage/v1/object/public/images/default.png",
     cidade: "Cachoeirinha",
     endereco: "Rua das Tulipas, 789",
   },
@@ -184,8 +150,6 @@ const people: PersonType[] = [
     name: "Diego Pereira",
     age: 29,
     status: "Desaparecido",
-    photoUrl:
-      "https://mhlvqqjzhwsfunzjwdxs.supabase.co/storage/v1/object/public/images/default.png",
     cidade: "São Leopoldo",
     endereco: "Avenida das Begônias, 234",
   },
@@ -194,8 +158,6 @@ const people: PersonType[] = [
     name: "Tatiana Souza",
     age: 35,
     status: "Resgatado",
-    photoUrl:
-      "https://mhlvqqjzhwsfunzjwdxs.supabase.co/storage/v1/object/public/images/default.png",
     cidade: "Guaíba",
     endereco: "Travessa das Margaridas, 567",
   },

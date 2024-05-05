@@ -1,7 +1,7 @@
 import { Form, Select, Slider, Button, Input } from "antd";
-import fakePeople from "../../data/fakePeople";
 
 const Filtros = ({
+  people,
   searchText,
   setSearchText,
   setMinAge,
@@ -9,6 +9,7 @@ const Filtros = ({
   selectedCity,
   setSelectedCity,
 }: {
+  people: any[];
   searchText: string;
   setSearchText: (value: string) => void;
   setMinAge: (value: number) => void;
@@ -17,7 +18,7 @@ const Filtros = ({
   setSelectedCity: (value: string) => void;
 }) => {
   const [form] = Form.useForm();
-  const cities = Array.from(new Set(fakePeople.map((person) => person.cidade)));
+  const cities = Array.from(new Set(people.map((person: any) => person.cidade)));
 
   return (
     <Form
