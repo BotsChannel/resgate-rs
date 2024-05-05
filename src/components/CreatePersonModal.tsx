@@ -93,6 +93,19 @@ const CreatePersonModal = ({
         </Form.Item>
 
         <Form.Item
+          label="Sexo"
+          name="sex"
+        >
+          <Select
+            placeholder="Selecione o sexo"
+            options={[
+              { label: "Masculino", value: "m" },
+              { label: "Feminino", value: "f" }
+            ]}
+          />
+        </Form.Item>
+
+        <Form.Item
           label="Cidade"
           name="cidade"
         >
@@ -174,12 +187,6 @@ const CreatePersonModal = ({
           >
             <Button icon={<UploadOutlined />}>Clique para enviar uma foto</Button>
           </Upload>
-        </Form.Item>
-        <Form.Item
-          name="info"
-          label="Informações adicionais"
-        >
-          <Input.TextArea placeholder="Informações adicionais sobre a pessoa" />
         </Form.Item>
         <div className="flex justify-end">
           <Button

@@ -58,6 +58,7 @@ export const updatePerson = async ({
   id,
   name,
   age,
+  sex,
   status,
   photoUrl,
   cidade,
@@ -68,6 +69,7 @@ export const updatePerson = async ({
   id: number
   name: string
   age: number
+  sex: string
   status: string
   photoUrl: string
   cidade: string
@@ -78,6 +80,7 @@ export const updatePerson = async ({
   const data = {
     name,
     age,
+    sex,
     status,
     photoUrl,
     cidade,

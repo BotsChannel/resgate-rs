@@ -19,6 +19,7 @@ model Person {
   id        Int      @id @default(autoincrement())
   name      String
   age       Int
+  sex       String
   status    String
   photoUrl  String
   cidade    String

@@ -37,9 +37,8 @@ const Filtros = ({
           placeholder="Selecione o sexo"
           className="min-h-[40px]"
           options={[
-            { label: "Masculino", value: "masculino" },
-            { label: "Feminino", value: "feminino" },
-            { label: "Animal", value: "animal" },
+            { label: "Masculino", value: "m" },
+            { label: "Feminino", value: "f" }
           ]}
         />
       </Item>
