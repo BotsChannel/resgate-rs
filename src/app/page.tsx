@@ -23,10 +23,10 @@ const Resgate: React.FC = () => {
       const fetchedPeople = await fetch("/api/people").then((res) =>
         res.json().finally(() => setLoading(false))
       );
-      console.log(fetchedPeople);
 
       const formattedPeople = fetchedPeople.map(
         (person: {
+          id: string;
           name: string;
           age: number;
           status: string;
@@ -36,6 +36,7 @@ const Resgate: React.FC = () => {
           abrigo: string;
           entrada: string;
         }) => ({
+          id: person.id,
           name: person.name,
           age: person.age,
           status: person.status,
@@ -47,6 +48,8 @@ const Resgate: React.FC = () => {
         })
       );
 
+      console.log(formattedPeople);
+      
       setPeople(formattedPeople);
     };
 

@@ -16,7 +16,7 @@ datasource db {
 }
 
 model Person {
-  id        String   @id @default(cuid())
+  id        Int      @id @default(autoincrement())
   name      String
   age       Int
   status    String
@@ -29,12 +29,12 @@ model Person {
 }
 
 model Comment {
-  id        String   @id @default(cuid())
+  id        Int      @id @default(autoincrement())
   message   String
   author    String
   timestamp DateTime @default(now())
   person    Person   @relation(fields: [personId], references: [id])
-  personId  String
+  personId  Int
 }
 
 model chat_session {
@@ -42,7 +42,7 @@ model chat_session {
 }
 
 model chat_message {
-  id        String   @id @default(cuid())
+  id        Int      @id @default(autoincrement())
   message   String
   author    String
   timestamp DateTime @default(now())

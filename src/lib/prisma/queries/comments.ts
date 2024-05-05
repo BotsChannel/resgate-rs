@@ -19,15 +19,7 @@ export const getComments = async ({ personId }: { personId: string }) => {
   })
 }
 
-export const postComment = async ({
-  message,
-  author,
-  personId,
-}: {
-  message: string
-  author: string
-  personId: string
-}) => {
+export const postComment = async (message: string, author: string, personId: string) => {
   const data = {
     message,
     author,
