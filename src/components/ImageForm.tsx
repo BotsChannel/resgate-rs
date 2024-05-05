@@ -9,7 +9,7 @@ export default function Page() {
     e.preventDefault();
 
     const filename = `teste${Math.floor(Math.random() * 1000000)}`;
-    const imageUrl = await addImage(file, filename);
+    const imageUrl = await addImage(file);
     
     console.log(imageUrl);
   };
