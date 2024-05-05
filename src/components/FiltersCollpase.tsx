@@ -38,7 +38,8 @@ const Filtros = ({
           className="min-h-[40px]"
           options={[
             { label: "Masculino", value: "m" },
-            { label: "Feminino", value: "f" }
+            { label: "Feminino", value: "f" },
+            { label: "Outro", value: "o"}
           ]}
         />
       </Item>

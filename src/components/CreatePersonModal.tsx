@@ -128,7 +128,8 @@ const CreatePersonModal = ({
             placeholder="Selecione o sexo"
             options={[
               { label: "Masculino", value: "m" },
-              { label: "Feminino", value: "f" }
+              { label: "Feminino", value: "f" },
+              { label: "Outro", value: "o" },
             ]}
           />
         </Form.Item>
