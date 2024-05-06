@@ -9,4 +9,5 @@ export interface PersonType {
   entrada?: string;
   abrigo?: string;
   info?: string;
+  timestamp?: string;
 }

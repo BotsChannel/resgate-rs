@@ -57,7 +57,11 @@ const Resgate: React.FC = () => {
         })
       );
 
-      setPeople(formattedPeople.sort((a: { timestamp: number; }, b: { timestamp: number; }) => b.timestamp - a.timestamp));
+      // show latest added people first
+      setPeople(formattedPeople.sort((
+        a: { timestamp: number; }, 
+        b: { timestamp: number; }
+      ) => b.timestamp - a.timestamp));
     };
 
     fetchData();
