@@ -42,46 +42,56 @@ const CreatePersonModal = ({
   }
 
   async function submitPerson() {
-    setSubmitForm(false);
+    setLoading(true);
+
     const values = form.getFieldsValue();
     const newPerson = {
       name: values.name,
-      age: parseInt(values.age),
+      age: values.age ?? 0,
       sex: values.sex,
       cidade: values.cidade,
       endereco: values.endereco,
       abrigo: "null",
       entrada: "null",
       status: values.status,
-      photoUrl: values.photoUrl ? await addImage(values.photoUrl.fileList[0].originFileObj) : ""
+      photoUrl: values.photoUrl
+        ? await addImage(values.photoUrl.fileList[0]?.originFileObj ?? "")
+        : "",
     };
 
-    if (person !== null && person !== undefined) {
-      //@TODO -  Update person
-      console.log("Update person");
-      return;
-    } else {
-      if (values.status === "Resgatado") {
-        newPerson.abrigo = values.abrigo;
-        newPerson.entrada = new Date(values.entrada).getTime().toString();
-      }
-
-      await fetch("/api/people", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newPerson),
-      }).then((response) => {
-        if (response.ok) {
-          setIsOpen(false);
-          form.resetFields();
-          toast.success("Pessoa adicionada com sucesso!");
-        } else {
-          toast.error("Erro ao adicionar pessoa. Por favor, tente novamente.");
+    try {
+      if (person !== null && person !== undefined) {
+        //@TODO @GABE - Update person with newPersonValues id is person.id
+        console.log("Update person");
+        setLoading(false);
+        return;
+      } else {
+        if (values.status === "Resgatado") {
+          newPerson.abrigo = values.abrigo;
+          newPerson.entrada = new Date(values.entrada).getTime().toString();
         }
-      });
+
+        await fetch("/api/people", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newPerson),
+        }).then((response) => {
+          if (response.ok === true) {
+            setIsOpen(false);
+            form.resetFields();
+            toast.success("Pessoa adicionada com sucesso!");
+          } else {
+            toast.error("Erro ao adicionar pessoa. Por favor, tente novamente.");
+          }
+        });
+      }
+    } catch (error) {
+      console.error("Error adding person: ", error);
+      toast.error("Erro ao adicionar pessoa. Por favor, tente novamente.");
     }
+    setLoading(false);
   }
 
   return (

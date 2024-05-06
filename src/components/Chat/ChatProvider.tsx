@@ -5,29 +5,16 @@ import { ChatMessage } from "./widget-types";
 export const ChatContext = createContext({
   messages: [] as ChatMessage[],
   setMessages: (messages: ChatMessage[]) => {},
-  sendMessage: (message: string, isUser?: boolean) => {},
+  sendMessage: (message: string, author: string, personId: number) => {},
   chatError: false,
   lastMessage: null as string | null,
+  setChatError: (error: boolean) => {},
 });
 
-export const ChatProvider = ({ children, personId }: { children: React.ReactNode, personId: number }) => {
+export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
   const [lastMessage, setLastMessage] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [chatError, setChatError] = useState<boolean>(false);
-
-  useEffect(() => {
-    const getMessages = async () => {
-      try {
-        const response = await fetch(`/api/comments/${personId}`);
-        const data = await response.json();
-        setMessages(data.messages);
-      } catch (error) {
-        setChatError(true);
-      }
-    }
-
-    getMessages();
-  }, []);
 
   function playAudio() {
     const audioCtx = new AudioContext();
@@ -45,25 +32,35 @@ export const ChatProvider = ({ children, personId }: { children: React.ReactNode
       .catch((error) => console.error("Error loading audio:", error));
   }
 
-  const sendMessage = React.useCallback(async (message: string, author: string) => {
-    const newMessage: ChatMessage = {
-      message,
-      author,
-      timestamp: new Date().getTime(),
-    };
-    setMessages((messages) => [...messages, newMessage]);
-    setLastMessage(newMessage.message);
-    
-    await fetch(`/api/comments/${personId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newMessage),
-    });
-
-    playAudio();
-  }, []);
+  const sendMessage = React.useCallback(
+    async (message: string, author: string, personId: number) => {
+      const newMessage: ChatMessage = {
+        message,
+        author,
+        timestamp: new Date().getTime(),
+      };
+      if (author === "" || author === null) {
+        newMessage.author = "Anônimo";
+      }
+      setMessages((messages) => [...messages, newMessage]);
+      setLastMessage(newMessage?.message);
+      try {
+        await fetch(`/api/comments/${personId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newMessage),
+        });
+      } catch (error) {
+        console.error("Error sending message", error);
+        setChatError(true);
+      } finally {
+        playAudio();
+      }
+    },
+    []
+  );
 
   return (
     <ChatContext.Provider
@@ -73,8 +70,9 @@ export const ChatProvider = ({ children, personId }: { children: React.ReactNode
         lastMessage,
 
         chatError,
+        setChatError,
 
-        sendMessage: (message: string, isUser?: boolean) => {}, // Fix: Change 'author' to 'isUser'
+        sendMessage,
       }}
     >
       {children}

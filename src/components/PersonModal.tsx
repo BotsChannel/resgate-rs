@@ -2,11 +2,12 @@
 import { PersonType } from "@/types/person";
 import { Menu, Modal } from "antd";
 import ChatComponent from "./Chat/Chat";
-import { ChatProvider } from "./Chat/ChatProvider";
+import { ChatContext, ChatProvider } from "./Chat/ChatProvider";
 import PersonCard from "./PersonCard";
 import { MessageOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { MenuProps } from "antd/lib/menu";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { ChatMessage } from "./Chat/widget-types";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -26,19 +27,37 @@ const items: MenuItem[] = [
 interface PersonModalProps {
   person: PersonType;
   setSelectedPerson: (person: PersonType | null) => void;
-  setIsModalOpen: (value: boolean) => void;
+  setCreatePersonModal: (value: boolean) => void;
 }
 
-const PersonModal = ({ person, setSelectedPerson, setIsModalOpen }: PersonModalProps) => {
+const PersonModal = ({ person, setSelectedPerson, setCreatePersonModal }: PersonModalProps) => {
   const [current, setCurrent] = useState("chat");
+  const [initialMessages, setInitialMessages] = useState<ChatMessage[]>([]);
+  const { setChatError } = useContext(ChatContext);
+
+  const getInitialMessages = async (userId: number) => {
+    try {
+      const response = await fetch(`/api/comments/${userId}`);
+      const data = await response.json();
+      console.log(data);
+      setInitialMessages(data.messages);
+      return data;
+    } catch (error) {
+      setChatError(true);
+    }
+  };
+
+  useEffect(() => {
+    if (person) {
+      getInitialMessages(person.id);
+    }
+  }, [person]);
 
   const onClick = (e: any) => {
     setCurrent(e.key);
   };
 
-  if (!person) {
-    return null;
-  }
+  if (!person) return null;
 
   return (
     <Modal
@@ -49,6 +68,7 @@ const PersonModal = ({ person, setSelectedPerson, setIsModalOpen }: PersonModalP
       footer={null}
       centered
       maskClosable
+      destroyOnClose
       width="fit-content"
       classNames={{
         body: "p-2 w-full",
@@ -64,6 +84,7 @@ const PersonModal = ({ person, setSelectedPerson, setIsModalOpen }: PersonModalP
             {person.status === "Resgatado" ? "🟢" : "⚠️"} {person.status}
             <p className="absolute top-1 left-2 text-xs text-gray-500">ID PESSOA: {person.id}</p>
           </p>
+
           <div className="justify-center w-full flex md:hidden">
             <Menu
               mode="horizontal"
@@ -79,7 +100,7 @@ const PersonModal = ({ person, setSelectedPerson, setIsModalOpen }: PersonModalP
             <PersonCard
               person={person}
               setSelectedPerson={setSelectedPerson}
-              setIsModalOpen={setIsModalOpen}
+              setIsModalOpen={setCreatePersonModal}
               hideTitle
             />
           </div>
@@ -89,13 +110,13 @@ const PersonModal = ({ person, setSelectedPerson, setIsModalOpen }: PersonModalP
               <PersonCard
                 person={person}
                 setSelectedPerson={setSelectedPerson}
-                setIsModalOpen={setIsModalOpen}
+                setIsModalOpen={setCreatePersonModal}
                 hideTitle
               />
             </div>
           )}
 
-          <ChatProvider personId={person.id}>
+          <ChatProvider>
             {current === "chat" && (
               <div className="w-full h-[500px] flex">
                 <ChatComponent
@@ -103,6 +124,8 @@ const PersonModal = ({ person, setSelectedPerson, setIsModalOpen }: PersonModalP
                   width="100%"
                   height="100%"
                   placeholder="Compartilhe informações sobre esta pessoa..."
+                  personID={person.id}
+                  initialMessages={initialMessages}
                 />
               </div>
             )}

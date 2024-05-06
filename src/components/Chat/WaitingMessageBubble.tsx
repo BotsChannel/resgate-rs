@@ -10,10 +10,8 @@ const WaitingMessageBubble = React.memo(function WaitingMessageBubble({
 }) {
   if (!waitingForResponse && !isTyping) return null;
   return (
-    <div className={`${waitingForResponse ? styles.botMessage : styles.userMessage}`}>
-      <div className={styles.waitingMessageBubble}>
-        <div className={styles.dotTyping}></div>
-      </div>
+    <div className={styles.waitingMessageBubble}>
+      <div className={styles.dotTyping}></div>
     </div>
   );
 });

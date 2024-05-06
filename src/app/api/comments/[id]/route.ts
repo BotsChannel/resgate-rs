@@ -13,27 +13,32 @@ import { getComments, postComment } from "@/lib/prisma/queries/comments";
 import { NextRequest } from "next/server";
 
 export async function GET(
-    req: NextRequest,
-    context: {
-        params: {
-            id: string;
-        };
-    }
+  req: NextRequest,
+  context: {
+    params: {
+      id: number;
+    };
+  }
 ) {
-    const comments = await getComments({ personId: Number(context.params.id) });
-    return Response.json(comments, { status: 200 });
+  const parsedPersonId =
+    typeof context.params.id === "number" ? context.params.id : Number(context.params.id);
+  const comments = await getComments({ personId: parsedPersonId });
+  return Response.json(comments, { status: 200 });
 }
 
 export async function POST(
-    req: NextRequest,
-    context: {
-        params: {
-            id: string;
-        };
-    }
+  req: NextRequest,
+  context: {
+    params: {
+      id: string;
+    };
+  }
 ) {
-    const { author, message } = req.body as unknown as { author: string, message: string };
-    const comment = await postComment(message, author, Number(context.params.id));
+  const data = await req.json();
+  const { author, message, timestamp } = data;
+  const parsedPersonId =
+    typeof context.params.id === "number" ? context.params.id : Number(context.params.id);
+  const comment = await postComment(message, author, parsedPersonId);
 
-    return Response.json(comment, { status: 201 });
+  return Response.json(comment, { status: 201 });
 }
