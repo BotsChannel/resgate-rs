@@ -59,6 +59,9 @@ const PersonModal = ({ person, setSelectedPerson, setCreatePersonModal }: Person
         author,
         timestamp: new Date().getTime(),
       };
+
+      // log 
+      console.log(JSON.stringify(newMessage));
       if (author === "" || author === null) {
         newMessage.author = "Anônimo";
       }

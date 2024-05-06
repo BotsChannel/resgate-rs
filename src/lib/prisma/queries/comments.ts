@@ -28,7 +28,7 @@ export const postComment = async (
   const data = {
     message,
     author,
-    timestamp: new Date(timestamp),
+    timestamp,
     personId,
   };
   return await prisma.comment.create({
