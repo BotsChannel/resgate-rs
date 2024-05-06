@@ -31,7 +31,7 @@ const Resgate: React.FC = () => {
             return Number(new Date(b.timestamp)) - Number(new Date(a.timestamp));
           })
         );
-        
+        setLoading(false);
       } catch (error: any) {
         setError(error.message || "Erro ao buscar pessoas.");
         setLoading(false);
@@ -39,9 +39,6 @@ const Resgate: React.FC = () => {
     };
 
     fetchData();
-
-    const intervalId = setInterval(fetchData, 60000);
-    return () => clearInterval(intervalId);
   }, []);
 
   // Function to filter people based on search text, city, age, and status
