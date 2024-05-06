@@ -47,7 +47,7 @@ const CreatePersonModal = ({
     const values = form.getFieldsValue();
     const newPerson = {
       name: values.name,
-      age: values.age ?? 0,
+      age: Number(values.age) ?? 0,
       sex: values.sex,
       cidade: values.cidade,
       endereco: values.endereco,
