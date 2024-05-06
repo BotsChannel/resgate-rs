@@ -1,6 +1,6 @@
 "use client";
 import { Form, Modal, Select, Upload, Button, Input } from "antd";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
 import { addImage } from "@/lib/prisma/queries/images";
 import { toast } from "react-toastify";
@@ -22,8 +22,19 @@ const CreatePersonModal = ({
   const [form] = Form.useForm();
   const { Item } = Form;
 
+  const [date, setDate] = useState<Number>(0);
+
   if (!isOpen) {
     return null;
+  }
+
+  const handleStatusChange = (value: SetStateAction<string>) => {
+    setSelectedStatus(value);
+  };
+
+  const handleDateChange = (value: string) => {
+    setDate(new Date(value).getTime());
+    console.log(date);
   }
 
   if (person !== null && person !== undefined) {
@@ -67,7 +78,7 @@ const CreatePersonModal = ({
       } else {
         if (values.status === "Resgatado") {
           newPerson.abrigo = values.abrigo;
-          newPerson.entrada = new Date(values.entrada).getTime().toString();
+          newPerson.entrada = date.toString();
         }
 
         await fetch("/api/people", {
@@ -116,7 +127,7 @@ const CreatePersonModal = ({
           <Select
             placeholder="Selecione o status"
             defaultValue="Desaparecido"
-            onChange={(value) => setSelectedStatus(value)}
+            onChange={handleStatusChange}
             options={[
               { label: "Desaparecido", value: "Desaparecido" },
               { label: "Resgatado", value: "Resgatado" },
@@ -214,6 +225,8 @@ const CreatePersonModal = ({
               <Input
                 type="date"
                 placeholder="Data de entrada no abrigo"
+                form="DD/MM/YYYY"
+                onChange={(e) => handleDateChange(e.target.value)}
               />
             </Form.Item>
           </>
