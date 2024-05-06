@@ -35,7 +35,7 @@ const CreatePersonModal = ({
   const handleDateChange = (value: string) => {
     setDate(new Date(value).getTime());
     console.log(date);
-  }
+  };
 
   if (person !== null && person !== undefined) {
     form.setFieldsValue({
@@ -152,8 +152,7 @@ const CreatePersonModal = ({
         >
           <Input
             type="number"
-            defaultValue={0}
-            placeholder="Idade da pessoa"
+            placeholder="Idade da pessoa (opcional)"
           />
         </Form.Item>
 
@@ -203,7 +202,7 @@ const CreatePersonModal = ({
         >
           <Input
             type="text"
-            placeholder="Endereço da pessoa"
+            placeholder="Endereço da pessoa (opcional)"
           />
         </Item>
 
@@ -215,7 +214,7 @@ const CreatePersonModal = ({
             >
               <Input
                 type="text"
-                placeholder="Abrigo onde a pessoa foi resgatada"
+                placeholder="Abrigo onde a pessoa foi resgatada (opcional)"
               />
             </Form.Item>
             <Form.Item
@@ -225,7 +224,7 @@ const CreatePersonModal = ({
               <Input
                 type="date"
                 placeholder="Data de entrada no abrigo"
-                form="DD/MM/YYYY"
+                form="DD/MM/2024"
                 onChange={(e) => handleDateChange(e.target.value)}
               />
             </Form.Item>

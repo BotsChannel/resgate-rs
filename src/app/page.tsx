@@ -31,7 +31,7 @@ const Resgate: React.FC = () => {
             return Number(new Date(b.timestamp)) - Number(new Date(a.timestamp));
           })
         );
-        
+        setLoading(false);
       } catch (error: any) {
         setError(error.message || "Erro ao buscar pessoas.");
         setLoading(false);
