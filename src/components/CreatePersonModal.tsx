@@ -18,6 +18,7 @@ const CreatePersonModal = ({
   person?: PersonType;
 }) => {
   const [selectedStatus, setSelectedStatus] = useState<string>("Desaparecido");
+  const [submitForm, setSubmitForm] = useState<boolean>(true);
   const [form] = Form.useForm();
   const { Item } = Form;
 
@@ -41,6 +42,7 @@ const CreatePersonModal = ({
   }
 
   async function submitPerson() {
+    setSubmitForm(false);
     const values = form.getFieldsValue();
     const newPerson = {
       name: values.name,
@@ -97,7 +99,7 @@ const CreatePersonModal = ({
         layout="vertical"
         form={form}
         initialValues={{ remember: true }}
-        onFinish={submitPerson}
+        onFinish={submitForm ? submitPerson : undefined}
       >
         <Item
           label="Nome"
