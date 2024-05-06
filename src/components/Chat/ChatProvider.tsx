@@ -10,7 +10,7 @@ export const ChatContext = createContext({
   lastMessage: null as string | null,
 });
 
-export const ChatProvider = ({ children, personId }: { children: React.ReactNode, personId: string }) => {
+export const ChatProvider = ({ children, personId }: { children: React.ReactNode, personId: number }) => {
   const [lastMessage, setLastMessage] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [chatError, setChatError] = useState<boolean>(false);
