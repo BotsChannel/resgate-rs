@@ -27,7 +27,6 @@ const PersonCard: React.FC<PersonCardProps> = ({
   return (
     <div className="flex flex-col items-center">
       {person.timestamp && (
-        console.log(person.timestamp),
         <p className="text-gray-500 text-sm m-2">
           {moment(person.timestamp).fromNow()}
         </p>
