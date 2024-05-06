@@ -1,7 +1,6 @@
-import React from "react";
-import Image from "next/image";
-import { Button, Card } from "antd";
 import { PersonType } from "@/types/person";
+import { Button, Card } from "antd";
+import React from "react";
 import ImageCard from "./ImageCard";
 import formatDate from "@/utils/formatDate";
 import moment from 'moment';
@@ -24,6 +23,7 @@ const PersonCard: React.FC<PersonCardProps> = ({
   setIsModalOpen,
   hideTitle,
 }) => {
+  if (!person) return null;
   return (
     <div className="flex flex-col items-center">
       <p className="text-gray-500 text-sm m-2">

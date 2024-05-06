@@ -13,4 +13,5 @@ export interface ChatProps {
   onScroll?: (event: React.UIEvent<HTMLDivElement>) => void;
   onMessageSend?: (message: string) => void;
   containerId?: string;
+  personID: number;
 }

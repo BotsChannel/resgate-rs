@@ -7,10 +7,10 @@ import { ChatContext } from "./ChatProvider";
 import { ErrorIcon } from "./Icons";
 import WaitingMessageBubble from "./WaitingMessageBubble";
 import { ChatMessage, ChatProps } from "./widget-types";
-import moment from 'moment';
-import 'moment/locale/pt-br'
+import moment from "moment";
+import "moment/locale/pt-br";
 
-moment.locale('pt-br')
+moment.locale("pt-br");
 
 const ChatComponent: React.FC<ChatProps> = ({
   botName,
@@ -21,6 +21,7 @@ const ChatComponent: React.FC<ChatProps> = ({
   onMessageSend,
   onScroll,
   containerId,
+  personID,
 }) => {
   const ChatBotName = botName ?? "RESGATE RS";
   const { sendMessage, messages, chatError } = useContext(ChatContext);
@@ -61,9 +62,8 @@ const ChatComponent: React.FC<ChatProps> = ({
 
   const handleSendMessage = () => {
     if (inputValue) {
-      const message = inputValue;
-      if (message.length > 0) {
-        sendMessage(message, true);
+      if (inputValue.length > 0) {
+        sendMessage(inputValue, authorValue, personID);
         setInputValue("");
         setWaitingForResponse(true);
       }
@@ -109,17 +109,30 @@ const ChatComponent: React.FC<ChatProps> = ({
             </>
           ) : (
             <>
-              {messages !== undefined && messages.map((message: any) => (
-                <div
-                  key={message.id}
-                  id={message.id}
-                  className={`${message.isUser ? styles.userMessage : styles.botMessage}`}
-                >
+              {messages.length === 0 && (
+                <div className={styles.message}>
                   <div className={styles.messageBubble}>
-                    <p className="mt-1">{message.text}</p>
-                    <span className={styles.timestamp}>
-                      {moment(message.timestamp).fromNow()}
-                    </span>
+                    <p>
+                      Ainda não foi recebido nenhuma informação sobre{" "}
+                      <strong>{ChatBotName.replace("Informações sobre", "")}</strong>, se tiver
+                      qualquer informação, por favor, envie uma mensagem.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {messages.map((message: ChatMessage) => (
+                <div
+                  key={message.timestamp + message.message}
+                  id={message.timestamp + message.message}
+                  className={styles.message}
+                >
+                  <div className={styles.messageHeader}>
+                    <span className={styles.messageSender}>{message.author ?? "Anônimo"}</span>
+                  </div>
+                  <div className={styles.messageBubble}>
+                    <p>{message.message}</p>
+                    <span className={styles.timestamp}>{moment(message.timestamp).fromNow()}</span>
                   </div>
                 </div>
               ))}
@@ -139,6 +152,8 @@ const ChatComponent: React.FC<ChatProps> = ({
           handleSendMessage={handleSendMessage}
           placeholder={placeholder}
           setIsTyping={setIsTyping}
+          setAutorValue={setAuthorValue}
+          autorValue={authorValue}
         />
       </div>
     </div>

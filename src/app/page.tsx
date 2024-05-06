@@ -9,15 +9,16 @@ import React, { useEffect, useState } from "react";
 const Resgate: React.FC = () => {
   const [searchText, setSearchText] = useState<string>("");
   const [selectedCity, setSelectedCity] = useState<string>("");
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
   const [minAge, setMinAge] = useState<number>(0);
   const [maxAge, setMaxAge] = useState<number>(120);
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
   const [people, setPeople] = useState<any[]>([]);
-  const [selectedPerson, setSelectedPerson] = useState<any | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const [selectedPerson, setSelectedPerson] = useState<any | null>(null);
+  const [createPersonModalOpen, setCreatePersonModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,23 +54,19 @@ const Resgate: React.FC = () => {
           endereco: person.endereco,
           abrigo: person.abrigo,
           entrada: person.entrada,
-          timestamp: new Date(person.timestamp)
+          timestamp: new Date(person.timestamp),
         })
       );
 
-      // show latest added people first
-      setPeople(formattedPeople.sort((
-        a: { timestamp: number; }, 
-        b: { timestamp: number; }
-      ) => b.timestamp - a.timestamp));
+      setPeople(
+        formattedPeople.sort(
+          (a: { timestamp: number }, b: { timestamp: number }) => b.timestamp - a.timestamp
+        )
+      );
     };
 
     fetchData();
   }, []);
-
-  useEffect(() => {
-    console.log(selectedPerson);
-  }, [selectedPerson]);
 
   // Function to filter people based on search text, city, age, and status
   const filteredPeople = people.filter(
@@ -86,14 +83,14 @@ const Resgate: React.FC = () => {
   return (
     <>
       <CreatePersonModal
-        isOpen={isModalOpen}
-        setIsOpen={setIsModalOpen}
+        isOpen={createPersonModalOpen}
+        setIsOpen={setCreatePersonModalOpen}
         person={selectedPerson}
       />
       <PersonModal
         person={selectedPerson}
         setSelectedPerson={setSelectedPerson}
-        setIsModalOpen={setIsModalOpen}
+        setCreatePersonModal={setCreatePersonModalOpen}
       />
 
       <div className="container mx-auto px-4 py-8 space-y-8 max-w-5xl min-h-screen">
@@ -156,7 +153,7 @@ const Resgate: React.FC = () => {
             className="px-8 min-h-12"
             onClick={() => {
               setSelectedPerson(null);
-              setIsModalOpen(true);
+              setCreatePersonModalOpen(true);
             }}
           >
             Adicionar pessoa
