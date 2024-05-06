@@ -22,50 +22,32 @@ const Resgate: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const fetchedPeople = await fetch("/api/people").then((res) =>
-        res.json().finally(() => setLoading(false))
-      );
+      try {
+        const response = await fetch("/api/people");
+        const fetchedPeople = await response.json();
 
-      if (fetchedPeople.ok === false) {
-        setError(fetchedPeople.message ?? "Erro ao buscar pessoas.");
-        return;
+        if (!response.ok) {
+          throw new Error(fetchedPeople.message || "Erro ao buscar pessoas.");
+        } else {
+          console.log("Atualizando pessoas...");
+        }
+
+        setPeople(
+          fetchedPeople.sort((a: { timestamp: number; }, b: { timestamp: number; }) => b.timestamp - a.timestamp)
+        );
+
+        setLoading(false);
+        setError(null);
+      } catch (error: any) {
+        setError(error.message || "Erro ao buscar pessoas.");
+        setLoading(false);
       }
-
-      const formattedPeople = fetchedPeople.map(
-        (person: {
-          id: number;
-          name: string;
-          age: number;
-          status: string;
-          photoUrl: string;
-          cidade: string;
-          endereco: string;
-          abrigo: string;
-          entrada: string;
-          // 2024-05-05 23:31:51.65
-          timestamp: string;
-        }) => ({
-          id: person.id,
-          name: person.name,
-          age: person.age,
-          status: person.status,
-          photoUrl: person.photoUrl,
-          cidade: person.cidade,
-          endereco: person.endereco,
-          abrigo: person.abrigo,
-          entrada: person.entrada,
-          timestamp: new Date(person.timestamp),
-        })
-      );
-
-      setPeople(
-        formattedPeople.sort(
-          (a: { timestamp: number }, b: { timestamp: number }) => b.timestamp - a.timestamp
-        )
-      );
     };
 
     fetchData();
+
+    const intervalId = setInterval(fetchData, 60000);
+    return () => clearInterval(intervalId);
   }, []);
 
   // Function to filter people based on search text, city, age, and status
