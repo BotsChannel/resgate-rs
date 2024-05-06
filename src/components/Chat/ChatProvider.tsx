@@ -10,7 +10,7 @@ export const ChatContext = createContext({
   lastMessage: null as string | null,
 });
 
-export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
+export const ChatProvider = ({ children, personId }: { children: React.ReactNode, personId: string }) => {
   const [lastMessage, setLastMessage] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [chatError, setChatError] = useState<boolean>(false);
@@ -18,7 +18,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const getMessages = async () => {
       try {
-        const response = await fetch(`/api/comments/${user.id}`);
+        const response = await fetch(`/api/comments/${personId}`);
         const data = await response.json();
         setMessages(data.messages);
       } catch (error) {
@@ -54,7 +54,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
     setMessages((messages) => [...messages, newMessage]);
     setLastMessage(newMessage.message);
     
-    await fetch(`/api/comments/${user.id}`, {
+    await fetch(`/api/comments/${personId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -74,7 +74,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
 
         chatError,
 
-        sendMessage,
+        sendMessage: (message: string, isUser?: boolean) => {}, // Fix: Change 'author' to 'isUser'
       }}
     >
       {children}

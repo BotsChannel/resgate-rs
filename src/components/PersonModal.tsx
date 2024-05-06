@@ -95,7 +95,7 @@ const PersonModal = ({ person, setSelectedPerson, setIsModalOpen }: PersonModalP
             </div>
           )}
 
-          <ChatProvider>
+          <ChatProvider personId={person.id}>
             {current === "chat" && (
               <div className="w-full h-[500px] flex">
                 <ChatComponent

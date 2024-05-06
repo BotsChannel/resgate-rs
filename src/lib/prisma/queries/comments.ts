@@ -11,7 +11,7 @@ model Comment {
 
 import { prisma } from '@/lib/prisma/config'
 
-export const getComments = async ({ personId }: { personId: string }) => {
+export const getComments = async ({ personId }: { personId: number }) => {
   return await prisma.comment.findMany({
     where: {
       personId,
@@ -19,7 +19,7 @@ export const getComments = async ({ personId }: { personId: string }) => {
   })
 }
 
-export const postComment = async (message: string, author: string, personId: string) => {
+export const postComment = async (message: string, author: string, personId: number) => {
   const data = {
     message,
     author,

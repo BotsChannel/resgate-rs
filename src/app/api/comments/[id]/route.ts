@@ -20,7 +20,7 @@ export async function GET(
         };
     }
 ) {
-    const comments = await getComments({ personId: context.params.id });
+    const comments = await getComments({ personId: Number(context.params.id) });
     return Response.json(comments, { status: 200 });
 }
 
@@ -33,7 +33,7 @@ export async function POST(
     }
 ) {
     const { author, message } = req.body as unknown as { author: string, message: string };
-    const comment = await postComment(message, author, context.params.id);
+    const comment = await postComment(message, author, Number(context.params.id));
 
     return Response.json(comment, { status: 201 });
 }

@@ -108,7 +108,7 @@ const ChatComponent: React.FC<ChatProps> = ({
             </>
           ) : (
             <>
-              {messages.map((message: any) => (
+              {messages !== undefined && messages.map((message: any) => (
                 <div
                   key={message.id}
                   id={message.id}
