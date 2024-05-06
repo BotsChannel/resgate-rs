@@ -39,9 +39,6 @@ const Resgate: React.FC = () => {
     };
 
     fetchData();
-
-    const intervalId = setInterval(fetchData, 60000);
-    return () => clearInterval(intervalId);
   }, []);
 
   // Function to filter people based on search text, city, age, and status

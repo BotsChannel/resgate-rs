@@ -48,8 +48,6 @@ const CreatePersonModal = ({
       entrada: person.entrada,
       photoUrl: person.photoUrl,
     });
-  } else {
-    form.resetFields();
   }
 
   async function submitPerson() {
