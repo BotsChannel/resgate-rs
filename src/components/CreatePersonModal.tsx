@@ -21,6 +21,7 @@ const CreatePersonModal = ({
   const [submitForm, setSubmitForm] = useState<boolean>(true);
   const [form] = Form.useForm();
   const { Item } = Form;
+  const [loading, setLoading] = useState<boolean>(false);
 
   if (!isOpen) {
     return null;
@@ -42,7 +43,7 @@ const CreatePersonModal = ({
   }
 
   async function submitPerson() {
-    setSubmitForm(false);
+    setLoading(true);
     const values = form.getFieldsValue();
     const newPerson = {
       name: values.name,
@@ -53,34 +54,40 @@ const CreatePersonModal = ({
       abrigo: "null",
       entrada: "null",
       status: values.status,
-      photoUrl: values.photoUrl ? await addImage(values.photoUrl.fileList[0].originFileObj) : ""
+      photoUrl: values.photoUrl ? await addImage(values.photoUrl.fileList[0].originFileObj) : "",
     };
-
-    if (person !== null && person !== undefined) {
-      //@TODO -  Update person
-      console.log("Update person");
-      return;
-    } else {
-      if (values.status === "Resgatado") {
-        newPerson.abrigo = values.abrigo;
-        newPerson.entrada = new Date(values.entrada).getTime().toString();
-      }
-
-      await fetch("/api/people", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newPerson),
-      }).then((response) => {
-        if (response.ok) {
-          setIsOpen(false);
-          form.resetFields();
-          toast.success("Pessoa adicionada com sucesso!");
-        } else {
-          toast.error("Erro ao adicionar pessoa. Por favor, tente novamente.");
+    try {
+      if (person !== null && person !== undefined) {
+        //@TODO @GABE - Update person with newPersonValues id is person.id
+        console.log("Update person");
+        return;
+      } else {
+        if (values.status === "Resgatado") {
+          newPerson.abrigo = values.abrigo;
+          newPerson.entrada = new Date(values.entrada).getTime().toString();
         }
-      });
+
+        await fetch("/api/people", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newPerson),
+        }).then((response) => {
+          if (response.ok) {
+            setIsOpen(false);
+            form.resetFields();
+            toast.success("Pessoa adicionada com sucesso!");
+          } else {
+            toast.error("Erro ao adicionar pessoa. Por favor, tente novamente.");
+          }
+        });
+      }
+    } catch (error) {
+      console.error("Error adding person: ", error);
+      toast.error("Erro ao adicionar pessoa. Por favor, tente novamente.");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -144,23 +151,13 @@ const CreatePersonModal = ({
           <Select
             showSearch
             placeholder="Selecione a cidade"
-            filterOption={(input, option) => {
-              const normalizedInput = unidecode(input).toLowerCase();
-              const normalizedOption = unidecode(
-                (option?.children as unknown as string) ?? ""
-              ).toLowerCase();
-              return normalizedOption.indexOf(normalizedInput) >= 0;
-            }}
-          >
-            {cidades.map((cidade) => (
-              <Select.Option
-                key={cidade}
-                value={cidade}
-              >
-                {cidade}
-              </Select.Option>
-            ))}
-          </Select>
+            options={cidades.map((cidade) => ({ label: cidade, value: cidade }))}
+            filterOption={(input, option) =>
+              unidecode(option?.label ?? "")
+                .toLowerCase()
+                .indexOf(unidecode(input ?? "").toLowerCase()) >= 0
+            }
+          />
         </Form.Item>
 
         <Item
@@ -225,6 +222,7 @@ const CreatePersonModal = ({
             type="primary"
             htmlType="submit"
             size="large"
+            loading={loading}
           >
             {person ? "Atualizar pessoa" : "Adicionar pessoa"}
           </Button>
