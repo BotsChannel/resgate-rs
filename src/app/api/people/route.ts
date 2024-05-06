@@ -24,6 +24,7 @@ export async function POST(
         const person = {
             name: body.name,
             age: body.age,
+            sex: body.sex,
             status: body.status,
             photoUrl: body.photoUrl,
             cidade: body.cidade,

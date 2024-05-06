@@ -1,6 +1,6 @@
 export interface ChatMessage {
-  text: string;
-  isUser: boolean;
+  message: string;
+  author: string;
   timestamp: number;
 }
 

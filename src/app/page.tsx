@@ -41,6 +41,8 @@ const Resgate: React.FC = () => {
           endereco: string;
           abrigo: string;
           entrada: string;
+          // 2024-05-05 23:31:51.65
+          timestamp: string;
         }) => ({
           id: person.id,
           name: person.name,
@@ -51,10 +53,11 @@ const Resgate: React.FC = () => {
           endereco: person.endereco,
           abrigo: person.abrigo,
           entrada: person.entrada,
+          timestamp: new Date(person.timestamp)
         })
       );
 
-      setPeople(formattedPeople);
+      setPeople(formattedPeople.sort((a: { timestamp: number; }, b: { timestamp: number; }) => b.timestamp - a.timestamp));
     };
 
     fetchData();

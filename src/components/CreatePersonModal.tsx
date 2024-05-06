@@ -45,12 +45,13 @@ const CreatePersonModal = ({
     const newPerson = {
       name: values.name,
       age: parseInt(values.age),
+      sex: values.sex,
       cidade: values.cidade,
       endereco: values.endereco,
       abrigo: "null",
       entrada: "null",
       status: values.status,
-      photoUrl: (await addImage(values.photoUrl.originFileObj)) ?? "",
+      photoUrl: values.photoUrl ? await addImage(values.photoUrl.fileList[0].originFileObj) : ""
     };
 
     if (person !== null && person !== undefined) {

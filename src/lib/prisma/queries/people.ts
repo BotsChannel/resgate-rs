@@ -22,6 +22,7 @@ export const getPeople = async () => {
 export const postPerson = async ({
   name,
   age,
+  sex,
   status,
   photoUrl,
   cidade,
@@ -31,6 +32,7 @@ export const postPerson = async ({
 }: {
   name: string
   age: number
+  sex: string
   status: string
   photoUrl: string
   cidade: string
@@ -41,6 +43,7 @@ export const postPerson = async ({
   const data = {
     name,
     age,
+    sex,
     status,
     photoUrl,
     cidade,

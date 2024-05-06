@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { ChatMessage } from "./widget-types";
 
 export const ChatContext = createContext({
@@ -13,8 +13,21 @@ export const ChatContext = createContext({
 export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
   const [lastMessage, setLastMessage] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-
   const [chatError, setChatError] = useState<boolean>(false);
+
+  useEffect(() => {
+    const getMessages = async () => {
+      try {
+        const response = await fetch(`/api/comments/${user.id}`);
+        const data = await response.json();
+        setMessages(data.messages);
+      } catch (error) {
+        setChatError(true);
+      }
+    }
+
+    getMessages();
+  }, []);
 
   function playAudio() {
     const audioCtx = new AudioContext();
@@ -32,18 +45,24 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
       .catch((error) => console.error("Error loading audio:", error));
   }
 
-  const sendMessage = React.useCallback((message: string, isUser?: boolean) => {
+  const sendMessage = React.useCallback(async (message: string, author: string) => {
     const newMessage: ChatMessage = {
-      text: message,
-      isUser: isUser ?? false,
+      message,
+      author,
       timestamp: new Date().getTime(),
     };
     setMessages((messages) => [...messages, newMessage]);
-    setLastMessage(newMessage.text);
+    setLastMessage(newMessage.message);
+    
+    await fetch(`/api/comments/${user.id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newMessage),
+    });
 
-    if (isUser === false || isUser === undefined) {
-      playAudio();
-    }
+    playAudio();
   }, []);
 
   return (
