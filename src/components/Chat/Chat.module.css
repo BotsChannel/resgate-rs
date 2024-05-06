@@ -30,6 +30,19 @@
   transition: height 0.3s;
 }
 
+/* se for w maior que 700 ter min w no chatbox */
+@media (min-width: 700px) {
+  .chatBox {
+    min-width: 400px;
+  }
+}
+
+@media (min-width: 1000px) {
+  .chatBox {
+    min-width: 500px;
+  }
+}
+
 .chatNav {
   width: 100%;
   height: 3.5rem; /* 56px */

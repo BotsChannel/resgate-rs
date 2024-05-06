@@ -1,13 +1,13 @@
 "use client";
 import { PersonType } from "@/types/person";
+import { InfoCircleOutlined, MessageOutlined } from "@ant-design/icons";
 import { Menu, Modal } from "antd";
-import ChatComponent from "./Chat/Chat";
-import { ChatContext, ChatProvider } from "./Chat/ChatProvider";
-import PersonCard from "./PersonCard";
-import { MessageOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { MenuProps } from "antd/lib/menu";
-import { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import ChatComponent from "./Chat/Chat";
+import playAudio from "./Chat/playAudio";
 import { ChatMessage } from "./Chat/widget-types";
+import PersonCard from "./PersonCard";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -32,23 +32,58 @@ interface PersonModalProps {
 
 const PersonModal = ({ person, setSelectedPerson, setCreatePersonModal }: PersonModalProps) => {
   const [current, setCurrent] = useState("chat");
-  const [initialMessages, setInitialMessages] = useState<ChatMessage[]>([]);
-  const { setChatError } = useContext(ChatContext);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [chatError, setChatError] = useState<boolean>(false);
+
+  const getInitialMessages = async (userId: number) => {
+    console.log("Getting initial messages");
+    try {
+      const response = await fetch(`/api/comments/${userId}`);
+      const data = await response.json().then((data) => {
+        console.log(data);
+        return data;
+      });
+      console.log(data);
+      setMessages(data);
+      return data;
+    } catch (error) {
+      console.log("Error fetching messages", error);
+      setChatError(true);
+    }
+  };
+
+  const sendMessage = React.useCallback(
+    async (message: string, author: string, personId: number) => {
+      const newMessage: ChatMessage = {
+        message,
+        author,
+        timestamp: new Date().getTime(),
+      };
+      if (author === "" || author === null) {
+        newMessage.author = "Anônimo";
+      }
+      setMessages((messages) => [...messages, newMessage]);
+      try {
+        await fetch(`/api/comments/${personId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newMessage),
+        });
+      } catch (error) {
+        console.error("Error sending message", error);
+        setChatError(true);
+      } finally {
+        playAudio();
+      }
+    },
+    []
+  );
 
   useEffect(() => {
-    const getInitialMessages = async (userId: number) => {
-      try {
-        const response = await fetch(`/api/comments/${userId}`);
-        const data = await response.json();
-        console.log(data);
-        setInitialMessages(data.messages);
-        return data;
-      } catch (error) {
-        setChatError(true);
-      }
-    };
-
-    if (person) {
+    if (person?.id) {
+      console.log(`Person: ${JSON.stringify(person)}`);
       getInitialMessages(person.id);
     }
   }, [person, setChatError]);
@@ -116,20 +151,20 @@ const PersonModal = ({ person, setSelectedPerson, setCreatePersonModal }: Person
             </div>
           )}
 
-          <ChatProvider>
-            {current === "chat" && (
-              <div className="w-full h-[500px] flex">
-                <ChatComponent
-                  botName={`Informações sobre ${person.name}`}
-                  width="100%"
-                  height="100%"
-                  placeholder="Compartilhe informações sobre esta pessoa..."
-                  personID={person.id}
-                  initialMessages={initialMessages}
-                />
-              </div>
-            )}
-          </ChatProvider>
+          {current === "chat" && (
+            <div className="w-full h-[500px] flex">
+              <ChatComponent
+                botName={`Informações sobre ${person.name}`}
+                width="100%"
+                height="100%"
+                placeholder="Compartilhe informações sobre esta pessoa..."
+                personID={person.id}
+                messages={messages}
+                chatError={chatError}
+                sendMessage={sendMessage}
+              />
+            </div>
+          )}
         </div>
       </div>
     </Modal>

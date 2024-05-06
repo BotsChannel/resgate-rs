@@ -14,4 +14,7 @@ export interface ChatProps {
   onMessageSend?: (message: string) => void;
   containerId?: string;
   personID: number;
+  messages: ChatMessage[];
+  sendMessage: (message: string, author: string, personId: number) => void;
+  chatError: boolean;
 }

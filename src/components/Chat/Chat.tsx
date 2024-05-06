@@ -1,14 +1,13 @@
 "use client";
-import React, { useContext } from "react";
+import moment from "moment";
+import "moment/locale/pt-br";
+import React from "react";
 import styles from "./Chat.module.css";
 import ChatHeader from "./ChatHeader";
 import ChatInput from "./ChatInput";
-import { ChatContext } from "./ChatProvider";
 import { ErrorIcon } from "./Icons";
 import WaitingMessageBubble from "./WaitingMessageBubble";
 import { ChatMessage, ChatProps } from "./widget-types";
-import moment from "moment";
-import "moment/locale/pt-br";
 
 moment.locale("pt-br");
 
@@ -22,9 +21,11 @@ const ChatComponent: React.FC<ChatProps> = ({
   onScroll,
   containerId,
   personID,
+  messages,
+  sendMessage,
+  chatError,
 }) => {
   const ChatBotName = botName ?? "RESGATE RS";
-  const { sendMessage, messages, chatError } = useContext(ChatContext);
   const [waitingForResponse, setWaitingForResponse] = React.useState<boolean>(false);
 
   const [isTyping, setIsTyping] = React.useState<boolean>(false);
