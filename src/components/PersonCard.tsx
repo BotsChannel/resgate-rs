@@ -26,9 +26,12 @@ const PersonCard: React.FC<PersonCardProps> = ({
   if (!person) return null;
   return (
     <div className="flex flex-col items-center">
-      <p className="text-gray-500 text-sm m-2">
-        {person.timestamp && moment(person.timestamp).fromNow()}
-      </p>
+      {person.timestamp && (
+        console.log(person.timestamp),
+        <p className="text-gray-500 text-sm m-2">
+          {moment(person.timestamp).fromNow()}
+        </p>
+      )}
       <Card
         className="text-lg shadow-lg h-full rounded-lg"
         title={

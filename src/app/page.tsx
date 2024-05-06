@@ -26,18 +26,12 @@ const Resgate: React.FC = () => {
         const response = await fetch("/api/people");
         const fetchedPeople = await response.json();
 
-        if (!response.ok) {
-          throw new Error(fetchedPeople.message || "Erro ao buscar pessoas.");
-        } else {
-          console.log("Atualizando pessoas...");
-        }
-
         setPeople(
-          fetchedPeople.sort((a: { timestamp: number; }, b: { timestamp: number; }) => b.timestamp - a.timestamp)
+          fetchedPeople.sort((a: { timestamp: number }, b: { timestamp: number }) => {
+            return Number(new Date(b.timestamp)) - Number(new Date(a.timestamp));
+          })
         );
-
-        setLoading(false);
-        setError(null);
+        
       } catch (error: any) {
         setError(error.message || "Erro ao buscar pessoas.");
         setLoading(false);

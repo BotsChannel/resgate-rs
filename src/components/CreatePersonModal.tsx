@@ -53,7 +53,7 @@ const CreatePersonModal = ({
       endereco: values.endereco,
       abrigo: "null",
       entrada: "null",
-      status: values.status,
+      status: selectedStatus,
       photoUrl: values.photoUrl
         ? await addImage(values.photoUrl.fileList[0]?.originFileObj ?? "")
         : "",
@@ -109,6 +109,21 @@ const CreatePersonModal = ({
         initialValues={{ remember: true }}
         onFinish={submitForm ? submitPerson : undefined}
       >
+        <Form.Item
+          label="Status"
+          name="status"
+        >
+          <Select
+            placeholder="Selecione o status"
+            defaultValue="Desaparecido"
+            onChange={(value) => setSelectedStatus(value)}
+            options={[
+              { label: "Desaparecido", value: "Desaparecido" },
+              { label: "Resgatado", value: "Resgatado" },
+            ]}
+          />
+        </Form.Item>
+
         <Item
           label="Nome"
           required
@@ -180,19 +195,6 @@ const CreatePersonModal = ({
             placeholder="Endereço da pessoa"
           />
         </Item>
-        <Form.Item
-          label="Status"
-          name="status"
-        >
-          <Select
-            placeholder="Selecione o status"
-            onChange={(value) => setSelectedStatus(value)}
-            options={[
-              { label: "Desaparecido", value: "Desaparecido" },
-              { label: "Resgatado", value: "Resgatado" },
-            ]}
-          />
-        </Form.Item>
 
         {selectedStatus === "Resgatado" && (
           <>
