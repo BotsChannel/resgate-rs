@@ -28,6 +28,7 @@ const ChatComponent: React.FC<ChatProps> = ({
 
   const [isTyping, setIsTyping] = React.useState<boolean>(false);
   const [inputValue, setInputValue] = React.useState<string>("");
+  const [authorValue, setAuthorValue] = React.useState<string>("");
 
   const messagesContainer = React.useRef<HTMLDivElement>(null);
 
@@ -131,6 +132,8 @@ const ChatComponent: React.FC<ChatProps> = ({
           )}
         </div>
         <ChatInput
+          authorValue={authorValue}
+          setAuthorValue={setAuthorValue}
           inputValue={inputValue}
           setInputValue={setInputValue}
           handleSendMessage={handleSendMessage}

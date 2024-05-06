@@ -2,6 +2,8 @@ import styles from "./Chat.module.css";
 import { SendIcon } from "./Icons";
 
 interface ChatInputProps {
+  authorValue: string;
+  setAuthorValue: (value: string) => void;
   inputValue: string;
   setInputValue: (value: string) => void;
   handleSendMessage: () => void;
@@ -10,6 +12,8 @@ interface ChatInputProps {
 }
 
 const ChatInput = ({
+  authorValue,
+  setAuthorValue,
   inputValue,
   setInputValue,
   handleSendMessage,
@@ -18,6 +22,17 @@ const ChatInput = ({
 }: ChatInputProps) => {
   return (
     <div className={styles.inputArea}>
+      <input
+        type="text"
+        className={styles.inputField}
+        value={authorValue}
+        onChange={(e) => {
+          if (e.target.value.length > 0) {
+            setAuthorValue(e.target.value);
+          }
+        }}
+        placeholder={"Seu nome"}
+      />
       <input
         type="text"
         className={styles.inputField}
