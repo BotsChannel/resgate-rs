@@ -70,24 +70,13 @@ const PersonCard: React.FC<PersonCardProps> = ({
           )}
         </div>
         <div className="flex justify-center mt-[35px] absolute bottom-0 w-full">
-          {showButton ? (
+          {showButton && (
             <Button
               type="primary"
               className="w-full"
               onClick={() => setSelectedPerson(person)}
             >
               Ver detalhes
-            </Button>
-          ) : (
-            <Button
-              type="primary"
-              className="w-full"
-              onClick={() => {
-                setSelectedPerson(person);
-                setIsModalOpen && setIsModalOpen(true);
-              }}
-            >
-              Editar
             </Button>
           )}
         </div>
