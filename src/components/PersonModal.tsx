@@ -35,23 +35,23 @@ const PersonModal = ({ person, setSelectedPerson, setCreatePersonModal }: Person
   const [initialMessages, setInitialMessages] = useState<ChatMessage[]>([]);
   const { setChatError } = useContext(ChatContext);
 
-  const getInitialMessages = async (userId: number) => {
-    try {
-      const response = await fetch(`/api/comments/${userId}`);
-      const data = await response.json();
-      console.log(data);
-      setInitialMessages(data.messages);
-      return data;
-    } catch (error) {
-      setChatError(true);
-    }
-  };
-
   useEffect(() => {
+    const getInitialMessages = async (userId: number) => {
+      try {
+        const response = await fetch(`/api/comments/${userId}`);
+        const data = await response.json();
+        console.log(data);
+        setInitialMessages(data.messages);
+        return data;
+      } catch (error) {
+        setChatError(true);
+      }
+    };
+
     if (person) {
       getInitialMessages(person.id);
     }
-  }, [person]);
+  }, [person, setChatError]);
 
   const onClick = (e: any) => {
     setCurrent(e.key);

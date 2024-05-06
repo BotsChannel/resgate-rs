@@ -42,7 +42,7 @@ const CreatePersonModal = ({
   }
 
   async function submitPerson() {
-    setLoading(true);
+    setSubmitForm(false);
 
     const values = form.getFieldsValue();
     const newPerson = {
@@ -63,7 +63,6 @@ const CreatePersonModal = ({
       if (person !== null && person !== undefined) {
         //@TODO @GABE - Update person with newPersonValues id is person.id
         console.log("Update person");
-        setLoading(false);
         return;
       } else {
         if (values.status === "Resgatado") {
@@ -91,7 +90,6 @@ const CreatePersonModal = ({
       console.error("Error adding person: ", error);
       toast.error("Erro ao adicionar pessoa. Por favor, tente novamente.");
     }
-    setLoading(false);
   }
 
   return (

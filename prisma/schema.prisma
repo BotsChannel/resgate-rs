@@ -34,7 +34,7 @@ model Comment {
   id        Int      @id @default(autoincrement())
   message   String
   author    String
-  timestamp Int
+  timestamp BigInt      
   person    Person   @relation(fields: [personId], references: [id])
   personId  Int
 }
@@ -47,5 +47,5 @@ model chat_message {
   id        Int      @id @default(autoincrement())
   message   String
   author    String
-  timestamp DateTime @default(now())
+  timestamp Int
 }

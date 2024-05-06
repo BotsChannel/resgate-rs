@@ -1,11 +1,11 @@
 /*
 model Comment {
-  id        String   @id @default(cuid())
+  id        Int      @id @default(autoincrement())
   message   String
   author    String
-  timestamp DateTime @default(now())
+  timestamp Int
   person    Person   @relation(fields: [personId], references: [id])
-  personId  Number
+  personId  Int
 }
 */
 
@@ -19,12 +19,14 @@ export const getComments = async ({ personId }: { personId: number }) => {
   });
 };
 
-export const postComment = async (message: string, author: string, personId: number) => {
-  console.log("TYPE OF PERSON ID", personId, "MESSAGE", message, "AUTHOR", author);
+export const postComment = async (message: string, author: string, timestamp: number, personId: number) => {
   const data = {
     message,
     author,
+    timestamp,
     personId,
   };
-  return await prisma.comment.create({ data });
-};
+  return await prisma.comment.create({
+    data,
+  });
+}
