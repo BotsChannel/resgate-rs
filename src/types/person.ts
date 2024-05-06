@@ -8,6 +8,5 @@ export interface PersonType {
   photoUrl?: string;
   entrada?: string;
   abrigo?: string;
-  info?: string;
   timestamp?: string;
 }
