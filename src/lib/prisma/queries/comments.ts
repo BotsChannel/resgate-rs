@@ -19,14 +19,19 @@ export const getComments = async ({ personId }: { personId: number }) => {
   });
 };
 
-export const postComment = async (message: string, author: string, timestamp: number, personId: number) => {
+export const postComment = async (
+  message: string,
+  author: string,
+  timestamp: number,
+  personId: number
+) => {
   const data = {
     message,
     author,
-    timestamp,
+    timestamp: new Date(timestamp),
     personId,
   };
   return await prisma.comment.create({
     data,
   });
-}
+};
