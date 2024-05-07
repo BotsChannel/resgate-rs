@@ -101,7 +101,7 @@ export default function RootLayout({
         <AntdRegistry>
           <ToastContainer />
           {children}
-          {/*<Footer />*/}
+          <Footer />
         </AntdRegistry>
       </body>
     </html>
