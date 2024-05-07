@@ -37,6 +37,12 @@ export const postPerson = async ({
   endereco: string
   abrigo: string
 }) => {
+  if (!age) {
+    age = 0
+  }
+  if (!endereco) {
+    endereco = 'Não informado'
+  }
   const data = {
     name,
     age,
