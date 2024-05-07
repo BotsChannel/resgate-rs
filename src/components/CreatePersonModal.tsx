@@ -140,8 +140,7 @@ const CreatePersonModal = ({
         >
           <Input
             type="number"
-            defaultValue={0}
-            placeholder="Idade da pessoa"
+            placeholder="Idade da pessoa (opcional)"
           />
         </Form.Item>
 
@@ -191,7 +190,7 @@ const CreatePersonModal = ({
         >
           <Input
             type="text"
-            placeholder="Endereço da pessoa"
+            placeholder="Endereço da pessoa (opcional)"
           />
         </Item>
 
@@ -203,7 +202,7 @@ const CreatePersonModal = ({
             >
               <Input
                 type="text"
-                placeholder="Abrigo onde a pessoa foi resgatada"
+                placeholder="Abrigo onde a pessoa foi resgatada (opcional)"
               />
             </Form.Item>
           </>
