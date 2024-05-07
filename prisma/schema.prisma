@@ -25,7 +25,6 @@ model Person {
   cidade    String
   endereco  String
   abrigo    String
-  entrada   String
   timestamp DateTime @default(now())
   comentarios Comment[]
 }

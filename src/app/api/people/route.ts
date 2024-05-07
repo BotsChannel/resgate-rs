@@ -30,7 +30,6 @@ export async function POST(
             cidade: body.cidade,
             endereco: body.endereco,
             abrigo: body.abrigo,
-            entrada: body.entrada,
         }
 
         const response = await postPerson(person)
@@ -68,7 +67,6 @@ export async function PUT(
             cidade: body.cidade,
             endereco: body.endereco,
             abrigo: body.abrigo,
-            entrada: body.entrada,
         }
 
         const response = await updatePerson({
@@ -81,7 +79,6 @@ export async function PUT(
             cidade: person.cidade,
             endereco: person.endereco,
             abrigo: person.abrigo,
-            entrada: person.entrada,
         });
 
         if (response) {
@@ -101,4 +98,3 @@ export async function PUT(
         }, { status: 500 });
     }
 }
-        

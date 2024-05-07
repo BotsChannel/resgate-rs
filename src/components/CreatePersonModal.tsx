@@ -22,8 +22,6 @@ const CreatePersonModal = ({
   const [form] = Form.useForm();
   const { Item } = Form;
 
-  const [date, setDate] = useState<Number>(0);
-
   if (!isOpen) {
     return null;
   }
@@ -31,11 +29,6 @@ const CreatePersonModal = ({
   const handleStatusChange = (value: SetStateAction<string>) => {
     setSelectedStatus(value);
   };
-
-  const handleDateChange = (value: string) => {
-    setDate(new Date(value).getTime());
-    console.log(date);
-  }
 
   if (person !== null && person !== undefined) {
     form.setFieldsValue({
@@ -45,7 +38,6 @@ const CreatePersonModal = ({
       endereco: person.endereco,
       status: person.status,
       abrigo: person.abrigo,
-      entrada: person.entrada,
       photoUrl: person.photoUrl,
     });
   }
@@ -61,7 +53,6 @@ const CreatePersonModal = ({
       cidade: values.cidade,
       endereco: values.endereco,
       abrigo: "null",
-      entrada: "null",
       status: selectedStatus,
       photoUrl: values.photoUrl
         ? await addImage(values.photoUrl.fileList[0]?.originFileObj ?? "")
@@ -76,7 +67,6 @@ const CreatePersonModal = ({
       } else {
         if (values.status === "Resgatado") {
           newPerson.abrigo = values.abrigo;
-          newPerson.entrada = date.toString();
         }
 
         await fetch("/api/people", {
@@ -214,17 +204,6 @@ const CreatePersonModal = ({
               <Input
                 type="text"
                 placeholder="Abrigo onde a pessoa foi resgatada"
-              />
-            </Form.Item>
-            <Form.Item
-              label="Data de entrada"
-              name="entrada"
-            >
-              <Input
-                type="date"
-                placeholder="Data de entrada no abrigo"
-                form="DD/MM/YYYY"
-                onChange={(e) => handleDateChange(e.target.value)}
               />
             </Form.Item>
           </>

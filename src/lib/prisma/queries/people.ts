@@ -8,7 +8,6 @@ model Person {
   cidade    String
   endereco  String
   abrigo    String
-  entrada   DateTime
   comentarios Comment[]
 }
 */
@@ -28,7 +27,6 @@ export const postPerson = async ({
   cidade,
   endereco,
   abrigo,
-  entrada,
 }: {
   name: string
   age: number
@@ -38,7 +36,6 @@ export const postPerson = async ({
   cidade: string
   endereco: string
   abrigo: string
-  entrada: string
 }) => {
   const data = {
     name,
@@ -49,7 +46,6 @@ export const postPerson = async ({
     cidade,
     endereco,
     abrigo,
-    entrada,
   }
 
   console.log(JSON.stringify(data));
@@ -67,7 +63,6 @@ export const updatePerson = async ({
   cidade,
   endereco,
   abrigo,
-  entrada,
 }: {
   id: number
   name: string
@@ -78,7 +73,6 @@ export const updatePerson = async ({
   cidade: string
   endereco: string
   abrigo: string
-  entrada: Date
 }) => {
   const data = {
     name,
@@ -89,7 +83,6 @@ export const updatePerson = async ({
     cidade,
     endereco,
     abrigo,
-    entrada,
   }
   return await prisma.person.update({
     where: {

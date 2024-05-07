@@ -65,7 +65,6 @@ const PersonCard: React.FC<PersonCardProps> = ({
           {person.status === "Resgatado" && (
             <>
               {person.abrigo && <p>Abrigo: {person.abrigo}</p>}
-              {person.entrada && <p>Data de entrada: {formatDate(person.entrada)}</p>}
             </>
           )}
         </div>
