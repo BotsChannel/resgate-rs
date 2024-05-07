@@ -75,6 +75,9 @@ const CreatePersonModal = ({
             "Content-Type": "application/json",
           },
           body: JSON.stringify(newPerson),
+          next: {
+            revalidate: 10,
+          }
         }).then((response) => {
           if (response.ok === true) {
             setIsOpen(false);

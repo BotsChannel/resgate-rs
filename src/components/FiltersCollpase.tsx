@@ -1,5 +1,5 @@
 import { Form, Select, Slider, Button, Input } from "antd";
-import cidades from "@/data/cidades";
+//import cidades from "@/data/cidades";
 import { useForm } from "antd/es/form/Form";
 
 const Filtros = ({
@@ -65,7 +65,11 @@ const Filtros = ({
         <Select
           placeholder="Selecione a cidade"
           className="min-h-[40px]"
-          options={cidades.map((city) => ({ label: city, value: city }))}
+          // get a set of uniques from people.cidade
+          options={(Array.from(new Set(people.map((person) => person.cidade))).map((cidade) => ({
+            label: cidade,
+            value: cidade,
+          })))}
           onChange={(value) => setSelectedCity(value)}
           value={selectedCity}
         />
