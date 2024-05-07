@@ -74,7 +74,7 @@ const Filtros = ({
           value={selectedCity}
         />
       </Item>
-      <Item
+      {/* <Item
         label="Ultimo endereço conhecido"
         name="endereco"
       >
@@ -84,7 +84,7 @@ const Filtros = ({
           className="border border-gray-300 rounded px-3 py-2 mb-4"
         />
       </Item>
-      {/* <div className="flex justify-end">
+      <div className="flex justify-end">
           <Button
             type="primary"
             htmlType="submit"

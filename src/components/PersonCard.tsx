@@ -57,8 +57,10 @@ const PersonCard: React.FC<PersonCardProps> = ({
           <ImageCard photoUrl={person.photoUrl as string} />
         </div>
         <div className="flex justify-between flex-col p-2 h-full">
-          <h3 className="font-bold text-2xl my-2">
-            {person.name}, {person.age && person.age}
+          <h3 className="text-2xl my-2">
+            <span className="font-bold">
+              {person.name}
+            </span>, {(person.age && person.age > 0) ? person.age + " anos" : "idade desconhecida"}
           </h3>
           <p>Cidade: {person.cidade}</p>
           {person.endereco && <p>Endereço: {person.endereco}</p>}
