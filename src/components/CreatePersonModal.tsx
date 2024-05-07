@@ -88,6 +88,9 @@ const CreatePersonModal = ({
     } catch (error) {
       console.error("Error adding person: ", error);
       toast.error("Erro ao adicionar pessoa. Por favor, tente novamente.");
+    } finally {
+      setSubmitForm(true);
+      form.resetFields();
     }
   }
 
