@@ -47,6 +47,24 @@ ${{\color{red}\small{\textsf{A plataforma foi removida do ar em respeito à priv
 - Tecnologia robusta e segura: A plataforma utiliza tecnologia de ponta para garantir a estabilidade, segurança e confiabilidade, mesmo com um grande volume de acessos simultâneos.
 - Acessibilidade total: O acesso à plataforma é gratuito e não exige autenticação, para que todos possam ter acesso imediato à informação, especialmente em momentos de urgência.
 
+#
+
+<div align="center">
+  <img src="https://imgur.com/LIMNZQz.png" alt="Warp" />
+
+###
+  
+  <img src="https://imgur.com/YZLu2Xb.png" alt="Warp" />
+
+###
+  
+  <img src="https://imgur.com/8HxGWKO.png" alt="Warp" />
+
+###
+  
+  <img src="https://imgur.com/bNWZbhI.png" alt="Warp" />
+</div>
+
 ### Diferenciais
 
 - Comunidade conectada: A plataforma promove a colaboração entre a comunidade, permitindo que todos contribuam ativamente para a busca por pessoas desaparecidas e para a reintegração familiar.
